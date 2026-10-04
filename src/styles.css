@@ -219,7 +219,7 @@ button, input, select { font: inherit; }
 .menu-panel-content { display: flex; flex-direction: column; align-items: flex-start; }
 .menu-panel-content button { font-size: 24px; height: auto; min-height: 53px; padding: 2px 0; font-weight: 600; text-align: left; white-space: normal; }
 .hero { position: relative; height: min(660px, calc(100svh - 100px)); min-height: 570px; background: var(--surface-soft); display: flex; align-items: flex-start; justify-content: center; overflow: hidden; }
-.hero-image { position: absolute; bottom: -15%; left: 50%; transform: translateX(-50%); width: min(100%, 1600px); height: 100%; object-fit: cover; object-position: center bottom; mask-image: linear-gradient(to bottom, transparent 0%, black 20%); }
+.hero-image { position: absolute; bottom: -10%; left: 50%; transform: translateX(-50%); width: min(100%, 1600px); height: 78%; object-fit: cover; object-position: center bottom; mask-image: linear-gradient(to bottom, transparent 0%, black 22%); }
 .hero-copy { position: relative; z-index: 1; text-align: center; padding: 64px 20px 0; max-width: 900px; }
 .hero-brand { font-size: 24px; font-weight: 650; margin: 0 0 9px; }
 .hero h1 { font-size: clamp(42px, 5.3vw, 72px); line-height: 1.06; margin: 0; font-weight: 700; }
