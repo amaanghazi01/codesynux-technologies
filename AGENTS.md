@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the public homepage sections as anchor destinations until the company supplies actual product and contact content; this avoids inventing product promises.
+- Use Lovable Cloud authentication for account access and keep orders/saves as honest empty states until their data workflows are defined; this avoids fake records.
