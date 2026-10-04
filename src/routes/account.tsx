@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import mark from "@/assets/codesynux-mark.png.asset.json";
 
 export const Route = createFileRoute("/account")({
-  validateSearch: (search: Record<string, unknown>) => ({ view: search.view === "orders" || search.view === "saves" ? search.view : "account" as "orders" | "saves" | "account" }),
+  validateSearch: (search: Record<string, unknown>) => ({ view: search['view'] === "orders" || search['view'] === "saves" ? search['view'] : "account" as "orders" | "saves" | "account" }),
   head: () => ({ meta: [
     { title: "My account — Codesynux" },
     { name: "description", content: "View your Codesynux account, orders, and saved items." },
