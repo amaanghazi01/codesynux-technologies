@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX ai_threads_one_per_account ON public.ai_threads(user_id);
