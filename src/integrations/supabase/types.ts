@@ -49,6 +49,30 @@ export type Database = {
           },
         ]
       }
+      ai_service_state: {
+        Row: {
+          blocked: boolean
+          created_at: string
+          message: string | null
+          service: string
+          updated_at: string
+        }
+        Insert: {
+          blocked?: boolean
+          created_at?: string
+          message?: string | null
+          service: string
+          updated_at?: string
+        }
+        Update: {
+          blocked?: boolean
+          created_at?: string
+          message?: string | null
+          service?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       ai_threads: {
         Row: {
           created_at: string
