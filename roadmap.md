@@ -2,7 +2,7 @@
 - [x] Launch responsive Apple-inspired homepage and company-mark navigation.
 - [x] Add search, bag, profile and navigation panels.
 - [x] Add account sign-in with email, Google, Apple and international mobile entry.
-- [ ] Build unified AI Experience / Build platform with account-saved chat threads, streaming answers, sourced research, and appearance settings.
+- [ ] Build unified AI Experience / Build platform with one ongoing account-saved conversation, streaming answers, sourced research, and appearance settings.
 - [ ] Add verified two-way live voice, camera sharing, talking avatar and supported voice choices.
 - [ ] Add coding, deployment and maintenance workflows with explicit approval for external actions.
 - [ ] Replace provisional service copy and build detailed product, pricing, documentation, support and contact sections — waiting for company information from the owner.
