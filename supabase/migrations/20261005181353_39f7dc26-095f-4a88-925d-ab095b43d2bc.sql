@@ -1,0 +1,1 @@
+CREATE POLICY "Backend manages service state" ON public.ai_service_state FOR ALL TO service_role USING (true) WITH CHECK (true);
