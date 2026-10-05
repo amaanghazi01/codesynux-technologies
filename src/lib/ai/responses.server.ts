@@ -5,7 +5,7 @@ import {
   createLovableAiGatewayRunIdFetch,
   getLovableAiGatewayRunId,
   withLovableAiGatewayRunIdHeader,
-} from "../../ai-apps-gateway-sdk/examples/run-id.ts";
+} from "./run-id.ts";
 
 export function createResponsesCall(
   request: Request,
@@ -25,6 +25,7 @@ export function createResponsesCall(
     model: provider.responses(config.model),
     // AI SDK 6 lacks `instructions`: rename this key to `system` there.
     instructions,
+    maxRetries: 0,
     messages,
     abortSignal: request.signal,
     providerOptions: {

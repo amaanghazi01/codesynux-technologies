@@ -11,3 +11,6 @@
 
 - Keep the public homepage sections as anchor destinations until the company supplies actual product and contact content; this avoids inventing product promises.
 - Use Lovable Cloud authentication for account access and keep orders/saves as honest empty states until their data workflows are defined; this avoids fake records.
+- AI workspace routes use route-derived thread IDs and account-scoped AI SDK messages; this isolates saved histories across accounts and chats.
+- Streaming chat uses AI Elements and server-only Gateway Responses helpers; this keeps message transport compatible and secrets private.
+- Live calls use the documented persistent relay and hook, with a Vite adapter and server-entry dispatch; this preserves heartbeat and Stop cleanup.
