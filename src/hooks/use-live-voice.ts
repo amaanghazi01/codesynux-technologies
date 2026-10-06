@@ -53,7 +53,7 @@ export function useLiveVoice(
     };
   }, []);
 
-  const start = useCallback(() => {
+  const start = useCallback((startDetails: Record<string, string> = {}) => {
     if (!mounted.current || controller.current) return;
     const audio = audioRef.current;
     if (!audio) {
@@ -72,6 +72,7 @@ export function useLiveVoice(
     const voice = createLiveVoice({
       url: endpoint.href,
       audio,
+      startDetails,
       onEvent(event) {
         if (!mounted.current || controller.current !== voice) return;
         if (event.type === "app.connected") {
@@ -122,6 +123,7 @@ export function useLiveVoice(
 type LiveOptions = {
   url: string;
   audio: HTMLAudioElement;
+  startDetails: Record<string, string>;
   onEvent: (event: LiveEvent) => void;
 };
 
@@ -351,7 +353,7 @@ function createLiveVoice(options: LiveOptions) {
       deadline = setTimeout(() => fail("Voice session did not start"), 50_000);
       socket.onopen = () => {
         if (!starting()) return release();
-        send({ type: "app.start", sdp });
+        send({ ...options.startDetails, type: "app.start", sdp });
       };
       socket.onmessage = ({ data }) => {
         try {

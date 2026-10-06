@@ -1,7 +1,6 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { stepCountIs, streamText, tool, type ModelMessage } from "ai";
+import { stepCountIs, streamText, type ModelMessage } from "ai";
 import process from "node:process";
-import { z } from "zod";
 
 export type LiveConfig = {
   baseURL: string;
@@ -12,7 +11,22 @@ export type LiveConfig = {
 };
 
 // Fill from co-loaded knowledge: the gateway URL, the Live model and the resolved chat model.
-const liveSettings = { baseURL: "", liveModel: "", backendModel: "" };
+const liveSettings = {
+  baseURL: "https://ai.gateway.lovable.dev/v1",
+  liveModel: "openai/gpt-live-1",
+  backendModel: "openai/gpt-6-astra",
+};
+
+// Documented GPT Live voices offered in the Codesynux voice picker.
+export const LIVE_VOICES = ["marin", "gleam", "meridian", "quartz", "ripple", "vesper", "willow", "stone", "delta", "cinder"] as const;
+
+async function verifyAccount(token: unknown) {
+  const url = process.env["SUPABASE_URL"];
+  const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
+  if (typeof token !== "string" || token.split(".").length !== 3 || !url || !key) return false;
+  const response = await fetch(`${url}/auth/v1/user`, { headers: { apikey: key, Authorization: `Bearer ${token}` } });
+  return response.ok;
+}
 
 export type LiveSocket = {
   readonly readyState: number;
@@ -111,35 +125,20 @@ export function handleLiveRequest(request: Request): Response {
   return new Response(null, response);
 }
 
-const conversationInstructions = `You are Mira, a calm learning companion.
-Speak naturally in brief replies. Ask a focused question when details are unclear.
+const conversationInstructions = `You are Codesynux AI, the live voice of the Codesynux AI Experience platform.
+Speak naturally and warmly in brief spoken replies, in the language the user speaks.
+Help with everyday life conversations, planning, research, learning and software development.
+When discussing code, describe the approach in plain speech instead of reading long code aloud.
+Ask one focused question when details are unclear. Never claim to run code, deploy, or take external actions.
+You cannot see the user's camera. Give general guidance, not guaranteed medical, legal or financial advice.
 Backchannel policy: Use moderate listening sounds without taking over.
 Interruption policy: Stop your answer and listen when the user interrupts.
 Delegation policy:
-Backend tools: Reason through questions and plan study sessions across days.
-Delegate to the backend when: The user wants a study schedule or careful reasoning,
+Backend tools: Careful reasoning and current web research with sources.
+Delegate to the backend when: The user asks for current facts, news, research, detailed technical reasoning,
 or a correction changes a question already being worked on.
-Do not delegate to the backend when: Greeting, clarifying a question, or repeating
+Do not delegate to the backend when: Greeting, small talk, clarifying a question, or repeating
 a still-current answer. Wait for the backend result before presenting its answer.`;
-
-const studyScheduleInput = z
-  .object({
-    total_minutes: z.number().int().min(1).max(10_080),
-    days: z.number().int().min(1).max(30),
-  })
-  .strict();
-
-function planStudySchedule(args: z.infer<typeof studyScheduleInput>) {
-  const daily = Math.floor(args.total_minutes / args.days);
-  return {
-    total_minutes: args.total_minutes,
-    days: args.days,
-    sessions: Array.from({ length: args.days }, (_, index) => ({
-      day: index + 1,
-      minutes: daily + (index < args.total_minutes % args.days ? 1 : 0),
-    })),
-  };
-}
 
 function isListeningSound(text: string) {
   const normalized = text.toLowerCase().replace(/[\s\p{Pd}]/gu, "");
@@ -152,7 +151,6 @@ async function answerQuestion(
   correlation: { runID: string; sessionID: string | undefined; delegationID: string },
   signal: AbortSignal,
   consumeInput: () => void,
-  onPlan: (plan: ReturnType<typeof planStudySchedule>) => void,
 ) {
   signal.throwIfAborted();
   const provider = createOpenAI({
@@ -200,26 +198,13 @@ async function answerQuestion(
       },
     },
     system:
-      "Help a spoken learning companion answer the latest user question. " +
+      "Help the Codesynux live voice assistant answer the latest user request. " +
       "Transcripts may be incomplete or corrected. Use the latest correction. " +
-      "Continue from completed tool results; do not repeat completed actions. " +
-      "Return verified facts and useful next steps in at most 150 words. " +
-      "To display a study schedule for the current request, call plan_study_schedule with its total minutes and days. " +
-      "Ask for missing details instead of guessing. The tool only calculates a draft plan; " +
-      "it does not save calendar events. You have no other tools.",
+      "Use web_search for current or factual information and mention source names briefly. " +
+      "Return verified facts and useful next steps in at most 150 words, written to be spoken aloud. " +
+      "Ask for missing details instead of guessing. You cannot execute code or take external actions.",
     messages,
-    tools: {
-      plan_study_schedule: tool({
-        description: "Distribute a total study time evenly across days and return a draft schedule.",
-        inputSchema: studyScheduleInput,
-        execute: async (args) => {
-          signal.throwIfAborted();
-          const plan = planStudySchedule(args);
-          onPlan(plan);
-          return plan;
-        },
-      }),
-    },
+    tools: { web_search: provider.tools.webSearch({}) },
   });
   let completed = false;
   let stepCompleted = false;
@@ -283,10 +268,7 @@ export function bindLiveConnection(
   let finished = false;
   let revision = 0;
   let task: AbortController | undefined;
-  const pendingDelegations: Array<{
-    event: ProviderEvent;
-    plan?: ReturnType<typeof planStudySchedule>;
-  }> = [];
+  const pendingDelegations: Array<{ event: ProviderEvent }> = [];
   let completedDelegation: (typeof pendingDelegations)[number] | undefined;
   const backendMessages: ModelMessage[] = [];
   let transcriptCursor = 0;
@@ -406,7 +388,7 @@ export function bindLiveConnection(
     restartTimer = setTimeout(() => void runDelegation(), 300);
   }
 
-  function deliverResult(delegationID: string, answer: string, plan?: ReturnType<typeof planStudySchedule>) {
+  function deliverResult(delegationID: string, answer: string) {
     if (closing) return;
     if (gateway?.readyState !== 1) return stop();
     try {
@@ -420,7 +402,6 @@ export function bindLiveConnection(
           }),
         );
       }
-      if (plan) emit({ type: "app.study_schedule.plan", delegation_id: delegationID, plan });
       completedDelegation = pendingDelegations.shift();
     } catch {
       stop();
@@ -444,18 +425,14 @@ export function bindLiveConnection(
         controller.signal,
         () => {
           const updates = transcripts.slice(transcriptCursor);
-          if (updates.some(({ role, listeningSound }) => role === "user" && !listeningSound)) delete pending.plan;
           backendMessages.push(...updates.map(({ role, text }) => ({ role, content: text })));
           transcriptCursor = transcripts.length;
           taskRevision = revision;
         },
-        (plan) => {
-          pending.plan = plan;
-        },
       );
       if (closing || controller.signal.aborted) return;
       if (taskRevision !== revision) return;
-      deliverResult(id, answer.trim(), pending.plan);
+      deliverResult(id, answer.trim());
     } catch {
       if (closing || controller.signal.aborted) return;
       backendMessages.push({
@@ -563,7 +540,9 @@ export function bindLiveConnection(
     }
   }
 
-  async function startSession(sdp: string) {
+  async function startSession(sdp: string, voice: string, token: unknown) {
+    if (closing || browser.readyState !== 1) return;
+    if (!(await verifyAccount(token))) throw new Error("Sign in to your Codesynux account to start a live call.");
     if (closing || browser.readyState !== 1) return;
     clearTimeout(startTimer);
     startupTimer = setTimeout(() => {
@@ -596,7 +575,7 @@ export function bindLiveConnection(
         session: {
           model: config.liveModel,
           instructions: conversationInstructions,
-          audio: { output: { voice: "marin" } },
+          audio: { output: { voice } },
           delegation: { type: "client" },
         },
         transport: { type: "webrtc", sdp },
@@ -616,7 +595,11 @@ export function bindLiveConnection(
         }
         starting = true;
         execution.waitUntil(
-          startSession(event.sdp).catch((error) => {
+          startSession(
+            event.sdp,
+            (LIVE_VOICES as readonly string[]).includes(event.voice) ? event.voice : "marin",
+            event.token,
+          ).catch((error) => {
             if (!closing)
               emit({
                 type: "app.error",
