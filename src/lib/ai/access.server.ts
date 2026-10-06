@@ -5,7 +5,7 @@ export async function getAIBlock() {
  return data?.blocked ? data.message || 'AI access is paused until the account owner restores access.' : null;
 }
 export async function recordAIBlock(status:number,message:string) {
- if (![402,403,404].includes(status)) return;
+ if (status !== 403) return;
  const {error}=await supabaseAdmin.from('ai_service_state').upsert({service:'gateway',blocked:true,message});
  if(error) console.error('AI access state could not be saved',error.code);
 }
