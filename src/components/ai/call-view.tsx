@@ -24,8 +24,8 @@ export function CallView({ mode, voice, onVoice, onClose }: {
 
   const onEvent = useCallback((event: LiveEvent) => {
     if (event.type !== "app.caption") return;
-    const role = event.role === "user" ? "user" : "assistant";
-    const text = String(event.text ?? "");
+    const role = event["role"] === "user" ? "user" : "assistant";
+    const text = String(event["text"] ?? "");
     setCaptions((prev) => {
       const last = prev.at(-1);
       if (last && last.role === role) return [...prev.slice(0, -1), { role, text: last.text + text }];

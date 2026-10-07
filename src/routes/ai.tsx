@@ -117,7 +117,7 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
     rec.interimResults = true;
     rec.continuous = false;
     const base = text ? text + " " : "";
-    rec.onresult = (e) => setText(base + Array.from(e.results).map((r) => r[0].transcript).join(""));
+    rec.onresult = (e) => setText(base + Array.from(e.results).map((r) => r[0]?.transcript ?? "").join(""));
     rec.onend = () => setListening(false);
     rec.onerror = () => setListening(false);
     recRef.current = rec;
