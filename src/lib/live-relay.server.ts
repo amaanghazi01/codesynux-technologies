@@ -504,6 +504,7 @@ export function bindLiveConnection(
           listeningSound,
         });
         if (listeningSound) return;
+        emit({ type: "app.caption", role, text: event.delta });
         if (role === "user") {
           revision++;
           const offset = completedDelegation?.event.offset_ms;
