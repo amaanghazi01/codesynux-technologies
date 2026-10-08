@@ -17,7 +17,9 @@ export function useCheckIn() {
       const meta = user.user_metadata ?? {};
       const name = String(meta["full_name"] ?? meta["name"] ?? user.email?.split("@")[0] ?? "");
       const avatar = (meta["avatar_url"] ?? meta["picture"]) as string | undefined;
-      const { data, error } = await supabase.rpc("check_in", { _ref: localStorage.getItem("csx_ref") ?? undefined, _name: name, _avatar: avatar });
+      const args: { _ref?: string; _name?: string; _avatar?: string } = { _name: name };
+      const ref = localStorage.getItem("csx_ref"); if (ref) args._ref = ref; if (avatar) args._avatar = avatar;
+      const { data, error } = await supabase.rpc("check_in", args);
       if (!error && data) { setMe(data as LeaderRow); localStorage.removeItem("csx_ref"); }
     }
     supabase.auth.getUser().then(({ data }) => run(data.user));
