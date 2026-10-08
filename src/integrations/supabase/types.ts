@@ -97,12 +97,71 @@ export type Database = {
         }
         Relationships: []
       }
+      leaderboard_profiles: {
+        Row: {
+          avatar_url: string | null
+          display_name: string
+          joined_at: string
+          last_active: string | null
+          points: number
+          referral_code: string
+          referrals: number
+          referred_by: string | null
+          streak: number
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          display_name?: string
+          joined_at?: string
+          last_active?: string | null
+          points?: number
+          referral_code?: string
+          referrals?: number
+          referred_by?: string | null
+          streak?: number
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          display_name?: string
+          joined_at?: string
+          last_active?: string | null
+          points?: number
+          referral_code?: string
+          referrals?: number
+          referred_by?: string | null
+          streak?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_in: {
+        Args: { _avatar?: string; _name?: string; _ref?: string }
+        Returns: {
+          avatar_url: string | null
+          display_name: string
+          joined_at: string
+          last_active: string | null
+          points: number
+          referral_code: string
+          referrals: number
+          referred_by: string | null
+          streak: number
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "leaderboard_profiles"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       [_ in never]: never
