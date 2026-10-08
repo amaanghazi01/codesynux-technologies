@@ -15,6 +15,8 @@ import { Route as AiRouteImport } from './routes/ai'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CloudInfrastructureRouteImport } from './routes/cloud-infrastructure'
 import { Route as CybersecurityRouteImport } from './routes/cybersecurity'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +49,16 @@ const CybersecurityRoute = CybersecurityRouteImport.update({
   path: '/cybersecurity',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -60,6 +72,8 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
   '/cybersecurity': typeof CybersecurityRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/pricing': typeof PricingRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +83,8 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
   '/cybersecurity': typeof CybersecurityRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/pricing': typeof PricingRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
@@ -79,6 +95,8 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
   '/cybersecurity': typeof CybersecurityRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/pricing': typeof PricingRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +108,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cloud-infrastructure'
     | '/cybersecurity'
+    | '/leaderboard'
+    | '/pricing'
     | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +119,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cloud-infrastructure'
     | '/cybersecurity'
+    | '/leaderboard'
+    | '/pricing'
     | '/api/chat'
   id:
     | '__root__'
@@ -108,6 +130,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cloud-infrastructure'
     | '/cybersecurity'
+    | '/leaderboard'
+    | '/pricing'
     | '/api/chat'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +142,8 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CloudInfrastructureRoute: typeof CloudInfrastructureRoute
   CybersecurityRoute: typeof CybersecurityRoute
+  LeaderboardRoute: typeof LeaderboardRoute
+  PricingRoute: typeof PricingRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
@@ -165,6 +191,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CybersecurityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -182,6 +222,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CloudInfrastructureRoute: CloudInfrastructureRoute,
   CybersecurityRoute: CybersecurityRoute,
+  LeaderboardRoute: LeaderboardRoute,
+  PricingRoute: PricingRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
