@@ -69,7 +69,7 @@ function Index() {
   return <div className="site-shell">
     <header className="global-header">
       <nav className="global-nav" aria-label="Main navigation">
-        <Link to="/" className="brand-link" aria-label="Codesynux home" onClick={() => setPanel(null)}><img src={mark.url} width="36" height="36" alt="" /></Link><Link to="/leaderboard" className="leader-icon" aria-label="Leaderboard"><Trophy strokeWidth={1.7} /></Link>
+        <div className="brand-group"><Link to="/" className="brand-link" aria-label="Codesynux home" onClick={() => setPanel(null)}><img src={mark.url} width="36" height="36" alt="" /></Link><Link to="/leaderboard" className="leader-icon" aria-label="Leaderboard"><Trophy strokeWidth={1.7} /></Link></div>
         <div className="desktop-nav">{navigation.map(item => routes[item.id] ? <Link key={item.id} to={routes[item.id]!}>{item.label}</Link> : <a key={item.id} href={`#${item.id}`}>{item.label}</a>)}</div>
         <div className="nav-actions">
           <Button variant="ghost" size="icon" className="nav-icon" aria-label="Search" aria-expanded={panel === "search"} onClick={() => setPanel(panel === "search" ? null : "search")}><Search strokeWidth={1.7}/></Button>
