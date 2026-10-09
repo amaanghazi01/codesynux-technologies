@@ -23,7 +23,7 @@ function Contact() {
     <h1>Let’s build what’s next.</h1>
     <p className="info-lead">Follow Codesynux and stay connected wherever you are.</p>
     <div className="social-grid">
-      {SOCIAL_LINKS.map((s, i) => { const Icon = icons[i]; const inner = <><Icon strokeWidth={1.6} /><strong>{s.name}</strong><span>{s.url ? s.handle : "Coming soon"}</span></>;
+      {SOCIAL_LINKS.map((s, i) => { const Icon = icons[i] ?? Mail; const inner = <><Icon strokeWidth={1.6} /><strong>{s.name}</strong><span>{s.url ? s.handle : "Coming soon"}</span></>;
         return s.url ? <a key={s.name} className="social-card" href={s.url} target="_blank" rel="noopener noreferrer">{inner}</a> : <div key={s.name} className="social-card is-soon">{inner}</div>; })}
       {COMPANY_EMAIL ? <a className="social-card" href={`mailto:${COMPANY_EMAIL}`}><Mail strokeWidth={1.6} /><strong>Email</strong><span>{COMPANY_EMAIL}</span></a> : <div className="social-card is-soon"><Mail strokeWidth={1.6} /><strong>Email</strong><span>Coming soon</span></div>}
     </div>
