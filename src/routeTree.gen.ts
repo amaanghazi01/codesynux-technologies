@@ -14,9 +14,12 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as AiRouteImport } from './routes/ai'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CloudInfrastructureRouteImport } from './routes/cloud-infrastructure'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CybersecurityRouteImport } from './routes/cybersecurity'
+import { Route as DocumentationRouteImport } from './routes/documentation'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const IndexRoute = IndexRouteImport.update({
@@ -44,9 +47,19 @@ const CloudInfrastructureRoute = CloudInfrastructureRouteImport.update({
   path: '/cloud-infrastructure',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CybersecurityRoute = CybersecurityRouteImport.update({
   id: '/cybersecurity',
   path: '/cybersecurity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentationRoute = DocumentationRouteImport.update({
+  id: '/documentation',
+  path: '/documentation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LeaderboardRoute = LeaderboardRouteImport.update({
@@ -57,6 +70,11 @@ const LeaderboardRoute = LeaderboardRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -71,9 +89,12 @@ export interface FileRoutesByFullPath {
   '/ai': typeof AiRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
+  '/contact': typeof ContactRoute
   '/cybersecurity': typeof CybersecurityRoute
+  '/documentation': typeof DocumentationRoute
   '/leaderboard': typeof LeaderboardRoute
   '/pricing': typeof PricingRoute
+  '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
@@ -82,9 +103,12 @@ export interface FileRoutesByTo {
   '/ai': typeof AiRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
+  '/contact': typeof ContactRoute
   '/cybersecurity': typeof CybersecurityRoute
+  '/documentation': typeof DocumentationRoute
   '/leaderboard': typeof LeaderboardRoute
   '/pricing': typeof PricingRoute
+  '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
@@ -94,9 +118,12 @@ export interface FileRoutesById {
   '/ai': typeof AiRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
+  '/contact': typeof ContactRoute
   '/cybersecurity': typeof CybersecurityRoute
+  '/documentation': typeof DocumentationRoute
   '/leaderboard': typeof LeaderboardRoute
   '/pricing': typeof PricingRoute
+  '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
@@ -107,9 +134,12 @@ export interface FileRouteTypes {
     | '/ai'
     | '/auth'
     | '/cloud-infrastructure'
+    | '/contact'
     | '/cybersecurity'
+    | '/documentation'
     | '/leaderboard'
     | '/pricing'
+    | '/support'
     | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -118,9 +148,12 @@ export interface FileRouteTypes {
     | '/ai'
     | '/auth'
     | '/cloud-infrastructure'
+    | '/contact'
     | '/cybersecurity'
+    | '/documentation'
     | '/leaderboard'
     | '/pricing'
+    | '/support'
     | '/api/chat'
   id:
     | '__root__'
@@ -129,9 +162,12 @@ export interface FileRouteTypes {
     | '/ai'
     | '/auth'
     | '/cloud-infrastructure'
+    | '/contact'
     | '/cybersecurity'
+    | '/documentation'
     | '/leaderboard'
     | '/pricing'
+    | '/support'
     | '/api/chat'
   fileRoutesById: FileRoutesById
 }
@@ -141,9 +177,12 @@ export interface RootRouteChildren {
   AiRoute: typeof AiRoute
   AuthRoute: typeof AuthRoute
   CloudInfrastructureRoute: typeof CloudInfrastructureRoute
+  ContactRoute: typeof ContactRoute
   CybersecurityRoute: typeof CybersecurityRoute
+  DocumentationRoute: typeof DocumentationRoute
   LeaderboardRoute: typeof LeaderboardRoute
   PricingRoute: typeof PricingRoute
+  SupportRoute: typeof SupportRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
@@ -184,11 +223,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CloudInfrastructureRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cybersecurity': {
       id: '/cybersecurity'
       path: '/cybersecurity'
       fullPath: '/cybersecurity'
       preLoaderRoute: typeof CybersecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documentation': {
+      id: '/documentation'
+      path: '/documentation'
+      fullPath: '/documentation'
+      preLoaderRoute: typeof DocumentationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/leaderboard': {
@@ -203,6 +256,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chat': {
@@ -221,9 +281,12 @@ const rootRouteChildren: RootRouteChildren = {
   AiRoute: AiRoute,
   AuthRoute: AuthRoute,
   CloudInfrastructureRoute: CloudInfrastructureRoute,
+  ContactRoute: ContactRoute,
   CybersecurityRoute: CybersecurityRoute,
+  DocumentationRoute: DocumentationRoute,
   LeaderboardRoute: LeaderboardRoute,
   PricingRoute: PricingRoute,
+  SupportRoute: SupportRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
