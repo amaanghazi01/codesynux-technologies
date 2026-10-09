@@ -21,7 +21,7 @@ const navigation = [
   { label: "Support", id: "support" },
   { label: "Contact", id: "contact" },
 ];
-const routes: Record<string, "/ai" | "/pricing" | "/cybersecurity" | "/cloud-infrastructure" | undefined> = { develop: "/ai", pricing: "/pricing", cybersecurity: "/cybersecurity", "cloud-infrastructure": "/cloud-infrastructure" };
+const routes: Record<string, "/ai" | "/pricing" | "/cybersecurity" | "/cloud-infrastructure" | "/documentation" | "/support" | "/contact" | undefined> = { documentation: "/documentation", support: "/support", contact: "/contact", develop: "/ai", pricing: "/pricing", cybersecurity: "/cybersecurity", "cloud-infrastructure": "/cloud-infrastructure" };
 const services = [
   { id: "artificial-intelligence", number: "01", label: "Artificial Intelligence Experience", description: "A new way to think about what’s possible.", tone: "service-ai" },
   { id: "cybersecurity", number: "02", label: "Cybersecurity Suites", description: "Confidence for the systems that matter.", tone: "service-security" },
@@ -92,9 +92,9 @@ function Index() {
       <section id="develop" className="simple-section"><span className="section-index">Build / Develop</span><h2>Make something remarkable.</h2><p>Plan, research and write code with Codesynux AI — by chat, voice or face to face.</p><Link to="/ai" className="text-action">Start building with AI <ArrowRight size={18}/></Link></section>
       <section id="console" className="simple-section alt-section"><span className="section-index">Console / Dashboard</span><h2>Everything in one place.</h2><p>Your workspace is on its way.</p><Link to="/auth" className="text-action">Sign in <ArrowRight size={18}/></Link></section>
       <section id="pricing" className="simple-section"><span className="section-index">Pricing</span><h2>Built around your needs.</h2><p>Tell us what you’re looking to make.</p><Link to="/pricing" className="text-action">See pricing <ArrowRight size={18}/></Link></section>
-      <section id="documentation" className="simple-section alt-section"><span className="section-index">Documentation</span><h2>Details, coming together.</h2><p>Our documentation will be available here soon.</p></section>
-      <section id="support" className="simple-section"><span className="section-index">Support</span><h2>We’re here to help.</h2><p>Support information will be available here soon.</p></section>
-      <section id="contact" className="simple-section contact-section"><span className="section-index">Contact</span><h2>Let’s build what’s next.</h2><p>Contact details will be available here soon.</p></section>
+      <section id="documentation" className="simple-section alt-section"><span className="section-index">Documentation</span><h2>Details, coming together.</h2><p>Guides for chatting, building and live calls.</p><Link to="/documentation" className="text-action">Read the guides <ArrowRight size={18}/></Link></section>
+      <section id="support" className="simple-section"><span className="section-index">Support</span><h2>We’re here to help.</h2><p>Answers and feedback, all in one place.</p><Link to="/support" className="text-action">Get support <ArrowRight size={18}/></Link></section>
+      <section id="contact" className="simple-section contact-section"><span className="section-index">Contact</span><h2>Let’s build what’s next.</h2><p>Connect with us on social media.</p><Link to="/contact" className="text-action">Contact us <ArrowRight size={18}/></Link></section>
     </main><footer className="site-footer"><span>© {new Date().getFullYear()} Codesynux</span><a href="#top" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Back to top ↑</a></footer>
   </div>;
 }

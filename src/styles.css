@@ -401,3 +401,32 @@ button, input, select { font: inherit; }
   .pricing-main, .leader-main { padding-top: 45px; }
   .brand-group { gap: 12px; }
 }
+
+/* Documentation / Support / Contact */
+.info-main{max-width:1040px;margin:0 auto;padding:clamp(48px,8vw,96px) 20px 96px;color:var(--foreground)}
+.info-main h1{font-size:clamp(34px,6vw,56px);font-weight:600;letter-spacing:-.02em;line-height:1.08;margin:8px 0 12px}
+.info-lead{font-size:clamp(17px,2.2vw,21px);color:var(--muted-foreground);margin-bottom:32px}
+.info-toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.info-toc a{padding:8px 14px;border-radius:999px;background:var(--secondary);font-size:14px}
+.info-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.info-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:24px;scroll-margin-top:90px}
+.info-card h2{font-size:21px;font-weight:600;margin:6px 0 12px}
+.info-card ol{padding-left:18px;list-style:decimal;display:grid;gap:8px;color:var(--muted-foreground);font-size:15px;line-height:1.5}
+.info-num{font-size:13px;color:var(--muted-foreground)}
+.info-cta{display:flex;flex-wrap:wrap;align-items:center;gap:20px;margin-top:40px}
+.info-button{display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;border-radius:999px;background:var(--primary);color:var(--primary-foreground);font-size:15px;font-weight:500;border:0;cursor:pointer}
+.info-button:disabled{opacity:.5;cursor:not-allowed}
+.faq-list{border-top:1px solid var(--border);margin-bottom:40px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item button{width:100%;display:flex;justify-content:space-between;gap:16px;text-align:left;padding:18px 0;font-size:17px;font-weight:500;background:none;border:0;cursor:pointer;color:inherit}
+.faq-item p{padding:0 0 18px;color:var(--muted-foreground);line-height:1.55}
+.faq-sign{font-size:22px;color:var(--muted-foreground)}
+.feedback-form{display:grid;gap:12px;margin-top:16px}
+.feedback-form input,.feedback-form select,.feedback-form textarea{width:100%;border:1px solid var(--border);border-radius:12px;padding:12px 14px;font:inherit;background:var(--background);color:inherit}
+.feedback-card p{color:var(--muted-foreground)}
+.social-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.social-card{display:flex;flex-direction:column;gap:6px;padding:24px;border-radius:22px;border:1px solid var(--border);background:var(--card);transition:transform .2s,box-shadow .2s}
+.social-card svg{width:28px;height:28px;margin-bottom:8px}
+.social-card span{color:var(--muted-foreground);font-size:14px}
+a.social-card:hover{transform:translateY(-2px);box-shadow:0 10px 30px -15px var(--foreground)}
+.social-card.is-soon{opacity:.6}
