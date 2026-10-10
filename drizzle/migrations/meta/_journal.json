@@ -22,6 +22,13 @@
       "when": 1791650875409,
       "tag": "0002_console_owner_select",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791653261402,
+      "tag": "0003_api_keys",
+      "breakpoints": true
     }
   ]
 }

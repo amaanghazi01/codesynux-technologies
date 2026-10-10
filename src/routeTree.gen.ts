@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AiRouteImport } from './routes/ai'
+import { Route as ApiKeysRouteImport } from './routes/api-keys'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CloudInfrastructureRouteImport } from './routes/cloud-infrastructure'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -23,6 +24,7 @@ import { Route as SupportRouteImport } from './routes/support'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ConsoleIndexRouteImport } from './routes/console.index'
 import { Route as ConsoleProjectIdRouteImport } from './routes/console.$projectId'
+import { Route as ApiPublicV1ChatRouteImport } from './routes/api/public/v1/chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -37,6 +39,11 @@ const AccountRoute = AccountRouteImport.update({
 const AiRoute = AiRouteImport.update({
   id: '/ai',
   path: '/ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiKeysRoute = ApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -94,11 +101,17 @@ const ConsoleProjectIdRoute = ConsoleProjectIdRouteImport.update({
   path: '/console/$projectId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicV1ChatRoute = ApiPublicV1ChatRouteImport.update({
+  id: '/api/public/v1/chat',
+  path: '/api/public/v1/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/ai': typeof AiRoute
+  '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
   '/contact': typeof ContactRoute
@@ -110,11 +123,13 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/console/$projectId': typeof ConsoleProjectIdRoute
   '/console/': typeof ConsoleIndexRoute
+  '/api/public/v1/chat': typeof ApiPublicV1ChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/ai': typeof AiRoute
+  '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
   '/contact': typeof ContactRoute
@@ -126,12 +141,14 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/console/$projectId': typeof ConsoleProjectIdRoute
   '/console': typeof ConsoleIndexRoute
+  '/api/public/v1/chat': typeof ApiPublicV1ChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/ai': typeof AiRoute
+  '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
   '/contact': typeof ContactRoute
@@ -143,6 +160,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/console/$projectId': typeof ConsoleProjectIdRoute
   '/console/': typeof ConsoleIndexRoute
+  '/api/public/v1/chat': typeof ApiPublicV1ChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -150,6 +168,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/ai'
+    | '/api-keys'
     | '/auth'
     | '/cloud-infrastructure'
     | '/contact'
@@ -161,11 +180,13 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/console/$projectId'
     | '/console/'
+    | '/api/public/v1/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/account'
     | '/ai'
+    | '/api-keys'
     | '/auth'
     | '/cloud-infrastructure'
     | '/contact'
@@ -177,11 +198,13 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/console/$projectId'
     | '/console'
+    | '/api/public/v1/chat'
   id:
     | '__root__'
     | '/'
     | '/account'
     | '/ai'
+    | '/api-keys'
     | '/auth'
     | '/cloud-infrastructure'
     | '/contact'
@@ -193,12 +216,14 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/console/$projectId'
     | '/console/'
+    | '/api/public/v1/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AiRoute: typeof AiRoute
+  ApiKeysRoute: typeof ApiKeysRoute
   AuthRoute: typeof AuthRoute
   CloudInfrastructureRoute: typeof CloudInfrastructureRoute
   ContactRoute: typeof ContactRoute
@@ -210,6 +235,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   ConsoleProjectIdRoute: typeof ConsoleProjectIdRoute
   ConsoleIndexRoute: typeof ConsoleIndexRoute
+  ApiPublicV1ChatRoute: typeof ApiPublicV1ChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -233,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/ai'
       fullPath: '/ai'
       preLoaderRoute: typeof AiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api-keys': {
+      id: '/api-keys'
+      path: '/api-keys'
+      fullPath: '/api-keys'
+      preLoaderRoute: typeof ApiKeysRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -312,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsoleProjectIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/v1/chat': {
+      id: '/api/public/v1/chat'
+      path: '/api/public/v1/chat'
+      fullPath: '/api/public/v1/chat'
+      preLoaderRoute: typeof ApiPublicV1ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -319,6 +359,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AiRoute: AiRoute,
+  ApiKeysRoute: ApiKeysRoute,
   AuthRoute: AuthRoute,
   CloudInfrastructureRoute: CloudInfrastructureRoute,
   ContactRoute: ContactRoute,
@@ -330,6 +371,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   ConsoleProjectIdRoute: ConsoleProjectIdRoute,
   ConsoleIndexRoute: ConsoleIndexRoute,
+  ApiPublicV1ChatRoute: ApiPublicV1ChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

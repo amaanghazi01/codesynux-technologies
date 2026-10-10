@@ -15,3 +15,4 @@
 - Streaming chat uses AI Elements and server-only Gateway Responses helpers; this keeps message transport compatible and secrets private.
 - Live calls use the documented persistent relay and hook, with a Vite adapter and server-entry dispatch; this preserves heartbeat and Stop cleanup.
 - Console access is granted only through owner/pro rows in user_roles, checked by security-definer functions in RLS; this keeps paid/owner access server-enforced.
+- Codesynux API keys are stored only as SHA-256 hashes and served via /api/public/v1/chat with per-key per-minute fair-use limits; this keeps keys unrecoverable and credits protected.

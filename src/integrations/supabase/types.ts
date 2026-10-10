@@ -97,6 +97,74 @@ export type Database = {
         }
         Relationships: []
       }
+      api_keys: {
+        Row: {
+          created_at: string
+          id: string
+          key_hash: string
+          last_used_at: string | null
+          name: string
+          prefix: string
+          requests: number
+          revoked: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key_hash: string
+          last_used_at?: string | null
+          name?: string
+          prefix: string
+          requests?: number
+          revoked?: boolean
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key_hash?: string
+          last_used_at?: string | null
+          name?: string
+          prefix?: string
+          requests?: number
+          revoked?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
+      api_usage: {
+        Row: {
+          created_at: string
+          id: number
+          key_id: string
+          status: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          key_id: string
+          status?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          key_id?: string
+          status?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_usage_key_id_fkey"
+            columns: ["key_id"]
+            isOneToOne: false
+            referencedRelation: "api_keys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       console_members: {
         Row: {
           created_at: string
