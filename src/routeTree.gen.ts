@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AiRouteImport } from './routes/ai'
+import { Route as ApiKeysRouteImport } from './routes/api-keys'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CloudInfrastructureRouteImport } from './routes/cloud-infrastructure'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -38,6 +39,11 @@ const AccountRoute = AccountRouteImport.update({
 const AiRoute = AiRouteImport.update({
   id: '/ai',
   path: '/ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiKeysRoute = ApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/ai': typeof AiRoute
+  '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
   '/contact': typeof ContactRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/ai': typeof AiRoute
+  '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
   '/contact': typeof ContactRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/ai': typeof AiRoute
+  '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
   '/contact': typeof ContactRoute
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/ai'
+    | '/api-keys'
     | '/auth'
     | '/cloud-infrastructure'
     | '/contact'
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/ai'
+    | '/api-keys'
     | '/auth'
     | '/cloud-infrastructure'
     | '/contact'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/ai'
+    | '/api-keys'
     | '/auth'
     | '/cloud-infrastructure'
     | '/contact'
@@ -211,6 +223,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AiRoute: typeof AiRoute
+  ApiKeysRoute: typeof ApiKeysRoute
   AuthRoute: typeof AuthRoute
   CloudInfrastructureRoute: typeof CloudInfrastructureRoute
   ContactRoute: typeof ContactRoute
@@ -246,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/ai'
       fullPath: '/ai'
       preLoaderRoute: typeof AiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api-keys': {
+      id: '/api-keys'
+      path: '/api-keys'
+      fullPath: '/api-keys'
+      preLoaderRoute: typeof ApiKeysRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -339,6 +359,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AiRoute: AiRoute,
+  ApiKeysRoute: ApiKeysRoute,
   AuthRoute: AuthRoute,
   CloudInfrastructureRoute: CloudInfrastructureRoute,
   ContactRoute: ContactRoute,
