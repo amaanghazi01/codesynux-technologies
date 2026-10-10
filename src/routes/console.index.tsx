@@ -27,7 +27,7 @@ function ConsoleHome() {
   const [projects, setProjects] = useState<Project[] | null>(null);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [kind, setKind] = useState(projectKinds[0]);
+  const [kind, setKind] = useState<string>(projectKinds[0]!);
   const [busy, setBusy] = useState(false);
   useEffect(() => {
     supabase.from("console_projects").select("id,name,kind,phase,updated_at").order("updated_at", { ascending: false }).then(({ data, error }) => {
