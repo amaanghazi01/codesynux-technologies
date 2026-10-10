@@ -97,6 +97,115 @@ export type Database = {
         }
         Relationships: []
       }
+      console_members: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          project_id: string
+          role: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          project_id: string
+          role?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          project_id?: string
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "console_members_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "console_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      console_projects: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          kind: string
+          name: string
+          owner_id: string
+          phase: string
+          preview_url: string | null
+          share_token: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          kind?: string
+          name: string
+          owner_id?: string
+          phase?: string
+          preview_url?: string | null
+          share_token?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          kind?: string
+          name?: string
+          owner_id?: string
+          phase?: string
+          preview_url?: string | null
+          share_token?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      console_tasks: {
+        Row: {
+          created_at: string
+          created_by: string
+          done: boolean
+          id: string
+          kind: string
+          project_id: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          done?: boolean
+          id?: string
+          kind?: string
+          project_id: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          done?: boolean
+          id?: string
+          kind?: string
+          project_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "console_tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "console_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leaderboard_profiles: {
         Row: {
           avatar_url: string | null
@@ -136,11 +245,30 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      can_access_project: { Args: { _project_id: string }; Returns: boolean }
       check_in: {
         Args: { _avatar?: string; _name?: string; _ref?: string }
         Returns: {
@@ -162,9 +290,18 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      has_console_access: { Args: { _user_id: string }; Returns: boolean }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      owns_project: { Args: { _project_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "owner" | "pro"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -291,6 +428,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["owner", "pro"],
+    },
   },
 } as const
