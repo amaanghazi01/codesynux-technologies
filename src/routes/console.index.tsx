@@ -39,7 +39,7 @@ function ConsoleHome() {
     const { data: u } = await supabase.auth.getUser();
     const { data, error } = await supabase.from("console_projects").insert({ name: name.trim(), kind, owner_id: u.user!.id }).select("id").single();
     setBusy(false);
-    if (error || !data) return toast.error("Couldn't create the project.");
+    if (error || !data) { toast.error("Couldn't create the project."); return; }
     navigate({ to: "/console/$projectId", params: { projectId: data.id } });
   };
   return <PageShell><main className="mx-auto max-w-5xl px-5 py-12">

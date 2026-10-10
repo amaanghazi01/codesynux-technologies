@@ -53,24 +53,24 @@ function Workspace() {
 
   const update = async (patch: Partial<Project>) => {
     const { error } = await supabase.from("console_projects").update({ ...patch, updated_at: new Date().toISOString() }).eq("id", project.id);
-    if (error) return toast.error("Couldn't save."); setProject({ ...project, ...patch });
+    if (error) { toast.error("Couldn't save."); return; } setProject({ ...project, ...patch });
   };
   const savePreview = () => {
     const url = preview.trim();
-    if (url && !/^https:\/\//i.test(url)) return toast.error("Use a full https:// link.");
+    if (url && !/^https:\/\//i.test(url)) { toast.error("Use a full https:// link."); return; }
     update({ preview_url: url || null }); toast.success("Preview link saved.");
   };
   const addMember = async (e: React.FormEvent) => {
     e.preventDefault(); const value = email.trim().toLowerCase();
-    if (!/^\S+@\S+\.\S+$/.test(value)) return toast.error("Enter a valid email.");
+    if (!/^\S+@\S+\.\S+$/.test(value)) { toast.error("Enter a valid email."); return; }
     const { error } = await supabase.from("console_members").insert({ project_id: project.id, email: value });
-    if (error) return toast.error(error.code === "23505" ? "Already on the team." : "Couldn't add member.");
+    if (error) { toast.error(error.code === "23505" ? "Already on the team." : "Couldn't add member."); return; }
     setEmail(""); toast.success("Added. Share the project link so they can open it."); load();
   };
   const addTask = async (e: React.FormEvent) => {
     e.preventDefault(); if (!taskTitle.trim() || !me) return;
     const { error } = await supabase.from("console_tasks").insert({ project_id: project.id, title: taskTitle.trim(), kind: taskKind, created_by: me });
-    if (error) return toast.error("Couldn't add item."); setTaskTitle(""); load();
+    if (error) { toast.error("Couldn't add item."); return; } setTaskTitle(""); load();
   };
   const toggleTask = async (t: Task) => { await supabase.from("console_tasks").update({ done: !t.done }).eq("id", t.id); load(); };
   const removeTask = async (t: Task) => { await supabase.from("console_tasks").delete().eq("id", t.id); load(); };
