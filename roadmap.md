@@ -6,6 +6,7 @@
 - [x] Add verified two-way live voice, camera sharing, talking avatar and supported voice choices.
 - [ ] Add coding, deployment and maintenance workflows with explicit approval for external actions.
 - [ ] Replace provisional service copy and build detailed product, pricing, documentation, support and contact sections — waiting for company information from the owner.
-- [ ] Connect real orders, saves and console workflows — waiting for workflow details from the owner.
+- [x] Console: projects, phases, team, preview, post-launch tasks (owner + pro access).
+- [ ] Connect real orders, saves; auto-grant Pro after payment — waiting for workflow details from the owner.
 - [x] Pricing, leaderboard, cybersecurity and cloud pages, linked from homepage.
 - [ ] Real payments, launch date, reward delivery — waiting on owner.
