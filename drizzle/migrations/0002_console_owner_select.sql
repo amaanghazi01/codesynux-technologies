@@ -1,0 +1,2 @@
+DROP POLICY "Access projects" ON public.console_projects;
+CREATE POLICY "Access projects" ON public.console_projects FOR SELECT TO authenticated USING ((owner_id = auth.uid() AND public.has_console_access(auth.uid())) OR public.can_access_project(id));
