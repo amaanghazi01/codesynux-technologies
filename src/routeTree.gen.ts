@@ -21,6 +21,8 @@ import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ConsoleIndexRouteImport } from './routes/console.index'
+import { Route as ConsoleProjectIdRouteImport } from './routes/console.$projectId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -82,6 +84,16 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConsoleIndexRoute = ConsoleIndexRouteImport.update({
+  id: '/console/',
+  path: '/console/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsoleProjectIdRoute = ConsoleProjectIdRouteImport.update({
+  id: '/console/$projectId',
+  path: '/console/$projectId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,6 +108,8 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
+  '/console/$projectId': typeof ConsoleProjectIdRoute
+  '/console/': typeof ConsoleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -110,6 +124,8 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
+  '/console/$projectId': typeof ConsoleProjectIdRoute
+  '/console': typeof ConsoleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,6 +141,8 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
+  '/console/$projectId': typeof ConsoleProjectIdRoute
+  '/console/': typeof ConsoleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,6 +159,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/support'
     | '/api/chat'
+    | '/console/$projectId'
+    | '/console/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -155,6 +175,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/support'
     | '/api/chat'
+    | '/console/$projectId'
+    | '/console'
   id:
     | '__root__'
     | '/'
@@ -169,6 +191,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/support'
     | '/api/chat'
+    | '/console/$projectId'
+    | '/console/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,6 +208,8 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   SupportRoute: typeof SupportRoute
   ApiChatRoute: typeof ApiChatRoute
+  ConsoleProjectIdRoute: typeof ConsoleProjectIdRoute
+  ConsoleIndexRoute: typeof ConsoleIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -272,6 +298,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/console/': {
+      id: '/console/'
+      path: '/console'
+      fullPath: '/console/'
+      preLoaderRoute: typeof ConsoleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/console/$projectId': {
+      id: '/console/$projectId'
+      path: '/console/$projectId'
+      fullPath: '/console/$projectId'
+      preLoaderRoute: typeof ConsoleProjectIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -288,6 +328,8 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   SupportRoute: SupportRoute,
   ApiChatRoute: ApiChatRoute,
+  ConsoleProjectIdRoute: ConsoleProjectIdRoute,
+  ConsoleIndexRoute: ConsoleIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
