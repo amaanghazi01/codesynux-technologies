@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Trophy, ArrowRight, Bookmark, Box, CircleUserRound, Menu, Search, Settings, ShoppingBag, X } from "lucide-react";
+import { Trophy, ArrowRight, Bookmark, Box, CircleUserRound, KeyRound, Menu, Search, Settings, ShoppingBag, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import mark from "@/assets/codesynux-mark.png.asset.json";
@@ -14,6 +14,7 @@ const quickLinks = [
 const navigation = [
   { label: "Console / Dashboard", id: "console" },
   { label: "Code Build / Develop", id: "develop" },
+  { label: "API keys", id: "api-keys" },
   { label: "Cloud Infrastructure", id: "cloud-infrastructure" },
   { label: "Cybersecurity", id: "cybersecurity" },
   { label: "Pricing", id: "pricing" },
@@ -21,7 +22,7 @@ const navigation = [
   { label: "Support", id: "support" },
   { label: "Contact", id: "contact" },
 ];
-const routes: Record<string, "/ai" | "/console" | "/pricing" | "/cybersecurity" | "/cloud-infrastructure" | "/documentation" | "/support" | "/contact" | undefined> = { console: "/console", documentation: "/documentation", support: "/support", contact: "/contact", develop: "/ai", pricing: "/pricing", cybersecurity: "/cybersecurity", "cloud-infrastructure": "/cloud-infrastructure" };
+const routes: Record<string, "/ai" | "/console" | "/api-keys" | "/pricing" | "/cybersecurity" | "/cloud-infrastructure" | "/documentation" | "/support" | "/contact" | undefined> = { "api-keys": "/api-keys", console: "/console", documentation: "/documentation", support: "/support", contact: "/contact", develop: "/ai", pricing: "/pricing", cybersecurity: "/cybersecurity", "cloud-infrastructure": "/cloud-infrastructure" };
 const services = [
   { id: "artificial-intelligence", number: "01", label: "Artificial Intelligence Experience", description: "A new way to think about what’s possible.", tone: "service-ai" },
   { id: "cybersecurity", number: "02", label: "Cybersecurity Suites", description: "Confidence for the systems that matter.", tone: "service-security" },
@@ -70,7 +71,7 @@ function Index() {
     <header className="global-header">
       <nav className="global-nav" aria-label="Main navigation">
         <div className="brand-group"><Link to="/" className="brand-link" aria-label="Codesynux home" onClick={() => setPanel(null)}><img src={mark.url} width="36" height="36" alt="" /></Link><Link to="/leaderboard" className="leader-icon" aria-label="Leaderboard"><Trophy strokeWidth={1.7} /></Link></div>
-        <div className="desktop-nav">{navigation.map(item => routes[item.id] ? <Link key={item.id} to={routes[item.id]!}>{item.label}</Link> : <a key={item.id} href={`#${item.id}`}>{item.label}</a>)}</div>
+        <div className="desktop-nav">{navigation.map(item => { const destination = routes[item.id]; return destination ? <Link key={item.id} to={destination}>{item.id === "api-keys" && <KeyRound size={14} />}{item.label}</Link> : <a key={item.id} href={`#${item.id}`}>{item.label}</a>; })}</div>
         <div className="nav-actions">
           <Button variant="ghost" size="icon" className="nav-icon" aria-label="Search" aria-expanded={panel === "search"} onClick={() => setPanel(panel === "search" ? null : "search")}><Search strokeWidth={1.7}/></Button>
           <Button variant="ghost" size="icon" className="nav-icon" aria-label="Bag" aria-expanded={panel === "bag"} onClick={() => setPanel(panel === "bag" ? null : "bag")}><ShoppingBag strokeWidth={1.7}/></Button>
@@ -82,7 +83,7 @@ function Index() {
       <div className="panel-inner"><Button variant="ghost" size="icon" className="panel-close" aria-label="Close" onClick={() => setPanel(null)}><X strokeWidth={1.5}/></Button>
         {panel === "search" && <div className="search-panel-content"><div className="search-field"><Search strokeWidth={1.5} /><input ref={searchRef} aria-label="Search Codesynux" placeholder="Search Codesynux" value={query} onChange={e => setQuery(e.target.value)} /></div><p className="panel-label">{query ? "Results" : "Quick Links"}</p><div className="panel-list">{filteredLinks.length ? filteredLinks.map(item => <Button variant="ghost" key={item.id} className="panel-list-item" onClick={() => closeAndScroll(item.id)}><ArrowRight />{item.label}</Button>) : <p className="panel-empty">No matches found.</p>}</div></div>}
         {panel === "bag" && <div className="bag-panel-content"><h2>Your Bag is empty.</h2><p className="bag-subline">{signedIn ? "Your saved items and orders are ready when you are." : <><Link to="/auth">Sign in</Link> to see if you have any saved items.</>}</p><p className="panel-label">My Profile</p><div className="panel-list profile-list"><Link to="/account" search={{ view: "orders" }}><Box />Orders</Link><Link to="/account" search={{ view: "saves" }}><Bookmark />Your Saves</Link><Link to="/account" search={{ view: "account" }}><Settings />Account</Link>{!signedIn && <Link to="/auth"><CircleUserRound />Sign in</Link>}</div></div>}
-        {panel === "menu" && <div className="menu-panel-content">{navigation.map(item => routes[item.id] ? <Button asChild variant="ghost" key={item.id}><Link to={routes[item.id]!} onClick={() => setPanel(null)}>{item.label}</Link></Button> : <Button variant="ghost" key={item.id} onClick={() => closeAndScroll(item.id)}>{item.label}</Button>)}</div>}
+        {panel === "menu" && <div className="menu-panel-content">{navigation.map(item => { const destination = routes[item.id]; return destination ? <Button asChild variant="ghost" key={item.id}><Link to={destination} onClick={() => setPanel(null)}>{item.id === "api-keys" && <KeyRound />}{item.label}</Link></Button> : <Button variant="ghost" key={item.id} onClick={() => closeAndScroll(item.id)}>{item.label}</Button>; })}</div>}
       </div>
     </div></>}
     <main>
