@@ -5,9 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 type Status = { unlimited: boolean; limit: number; used: number };
 
 function untilMidnight() {
-  const now = new Date();
-  const m = new Date(now); m.setHours(24, 0, 0, 0);
-  const s = Math.floor((m.getTime() - now.getTime()) / 1000);
+  // Points refill at 12 midnight India time (UTC+5:30).
+  const ist = Date.now() + 5.5 * 3600 * 1000;
+  const s = Math.floor((86400000 - (ist % 86400000)) / 1000);
   return `${Math.floor(s / 3600)}h ${String(Math.floor((s % 3600) / 60)).padStart(2, "0")}m`;
 }
 

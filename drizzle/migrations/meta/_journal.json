@@ -36,6 +36,13 @@
       "when": 1791711310138,
       "tag": "0004_ai_daily_points",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791714101364,
+      "tag": "0005_points_reset_india_midnight",
+      "breakpoints": true
     }
   ]
 }
