@@ -1,12 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Check, Copy, ExternalLink, Eye, Sparkles, Trash2, UserPlus, Users, Wrench } from "lucide-react";
+import { ArrowLeft, Check, Server, Copy, ExternalLink, Eye, Sparkles, Trash2, UserPlus, Users, Wrench } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { ConsoleGate } from "@/components/console-gate";
 import { supabase } from "@/integrations/supabase/client";
 import { phases } from "@/lib/console";
+import { ProjectPreview } from "@/components/project-preview";
 
 export const Route = createFileRoute("/console/$projectId")({
   head: () => ({ meta: [
@@ -86,6 +87,8 @@ function Workspace() {
       <div><p className="text-xs text-muted-foreground">{project.kind}</p><h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{project.name}</h1></div>
       <div className="flex flex-wrap gap-2">
         <Button asChild className="rounded-full"><Link to="/ai"><Sparkles /> Build with AI</Link></Button>
+        <ProjectPreview url={project.preview_url} variant="button" />
+        {["deployment","maintenance"].includes(project.phase) && <Button asChild variant="outline" className="rounded-full"><Link to="/cloud-infrastructure"><Server /> Open server details</Link></Button>}
         <Button variant="outline" className="rounded-full" onClick={copyShare}><Copy /> Share</Button>
         {project.preview_url && <Button asChild variant="outline" className="rounded-full"><a href={project.preview_url} target="_blank" rel="noreferrer"><ExternalLink /> Live preview</a></Button>}
       </div>
