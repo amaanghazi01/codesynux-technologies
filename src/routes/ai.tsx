@@ -3,7 +3,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { useServerFn } from "@tanstack/react-start";
-import { Copy, Home, Mic, Moon, PanelLeft, Phone, RotateCcw, Sun, Trash2, Video, X, Code2, Search, Lightbulb, CircleUserRound, LayoutDashboard } from "lucide-react";
+import { Copy, Home, Mic, Moon, PanelLeft, Phone, RotateCcw, Sun, Trash2, Video, X, Code2, Search, Lightbulb, CircleUserRound, LayoutDashboard, Server } from "lucide-react";
+import { PointsBadge } from "@/components/ai/points-badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { loadConversation, clearConversation } from "@/lib/ai/conversation.functions";
@@ -169,6 +170,8 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
             <h1 className="px-2 text-base font-semibold">Codesynux AI</h1>
           </div>
           <div className="flex items-center gap-1">
+            <PointsBadge refreshKey={messages.length} />
+            <Button asChild variant="ghost" size="icon" aria-label="Open Codesynux Server" title="Codesynux Server"><Link to="/cloud-infrastructure"><Server /></Link></Button>
             <Button asChild variant="ghost" size="icon" aria-label="Open Console"><Link to="/console"><LayoutDashboard /></Link></Button>
             <Button variant="ghost" size="icon" aria-label="Start voice call" onClick={() => setCallMode("voice")}><Phone /></Button>
             <Button variant="ghost" size="icon" aria-label="Start face-to-face call" onClick={() => setCallMode("video")}><Video /></Button>
