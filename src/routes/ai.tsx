@@ -5,6 +5,7 @@ import { DefaultChatTransport, type UIMessage } from "ai";
 import { useServerFn } from "@tanstack/react-start";
 import { Copy, Home, Mic, Moon, PanelLeft, Phone, RotateCcw, Sun, Trash2, Video, X, Code2, Search, Lightbulb, CircleUserRound, LayoutDashboard, Server } from "lucide-react";
 import { PointsBadge } from "@/components/ai/points-badge";
+import { ProjectPreview } from "@/components/project-preview";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { loadConversation, clearConversation } from "@/lib/ai/conversation.functions";
@@ -78,6 +79,7 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
   const [voice, setVoice] = useState("marin");
   const [callMode, setCallMode] = useState<"voice" | "video" | null>(null);
   const [text, setText] = useState("");
+  const [lang, setLang] = useState<"en" | "hi">("en");
   const [listening, setListening] = useState(false);
   const recRef = useRef<SpeechRec | null>(null);
 
@@ -104,7 +106,7 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
   const send = (value: string) => {
     const t = value.trim();
     if (!t || status === "submitted" || status === "streaming") return;
-    void sendMessage({ text: t });
+    void sendMessage({ text: lang === "hi" ? `${t}\n\n(कृपया हिंदी में उत्तर दें)` : t });
     setText("");
   };
 
@@ -114,7 +116,7 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
     const Ctor = W.SpeechRecognition ?? W.webkitSpeechRecognition;
     if (!Ctor) { alert("Dictation isn’t supported in this browser. Try the voice call instead."); return; }
     const rec = new Ctor();
-    rec.lang = navigator.language || "en-US";
+    rec.lang = lang === "hi" ? "hi-IN" : navigator.language || "en-US";
     rec.interimResults = true;
     rec.continuous = false;
     const base = text ? text + " " : "";
@@ -171,6 +173,8 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
           </div>
           <div className="flex items-center gap-1">
             <PointsBadge refreshKey={messages.length} />
+            <Button variant="ghost" size="sm" className="rounded-full px-2" aria-label="Switch language" title="English / हिंदी" onClick={() => setLang(lang === "en" ? "hi" : "en")}>{lang === "en" ? "EN" : "हिं"}</Button>
+            <ProjectPreview />
             <Button asChild variant="ghost" size="icon" aria-label="Open Codesynux Server" title="Codesynux Server"><Link to="/cloud-infrastructure"><Server /></Link></Button>
             <Button asChild variant="ghost" size="icon" aria-label="Open Console"><Link to="/console"><LayoutDashboard /></Link></Button>
             <Button variant="ghost" size="icon" aria-label="Start voice call" onClick={() => setCallMode("voice")}><Phone /></Button>
@@ -218,7 +222,7 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
         <div className="mx-auto w-full max-w-3xl px-3 pb-[max(env(safe-area-inset-bottom),12px)]">
           <PromptInput onSubmit={() => send(text)} className="rounded-3xl">
             <PromptInputBody>
-              <PromptInputTextarea value={text} onChange={(e) => setText(e.target.value)} placeholder={listening ? "Listening…" : "Ask Codesynux AI"} />
+              <PromptInputTextarea value={text} onChange={(e) => setText(e.target.value)} placeholder={listening ? (lang === "hi" ? "सुन रहा है…" : "Listening…") : lang === "hi" ? "Codesynux AI से पूछें" : "Ask Codesynux AI"} />
             </PromptInputBody>
             <PromptInputFooter>
               <PromptInputTools>

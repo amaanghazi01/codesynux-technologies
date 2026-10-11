@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowRight, Cpu, Database, KeyRound, Network, Rocket, Server, ShieldCheck, Sparkles } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
+import { ProjectPreview } from "@/components/project-preview";
 
 export const Route = createFileRoute("/cloud-infrastructure")({
   head: () => ({ meta: [
@@ -31,7 +32,7 @@ function CloudPage() {
       <p className="section-index">Cloud Infrastructure</p>
       <h1>Codesynux Server</h1>
       <p className="cloud-intro">The home for what you build with Codesynux AI — from planning and coding to deployment and care after launch.</p>
-      <div className="cloud-actions"><Link to="/ai" className="cloud-btn primary"><Sparkles size={16} /> Open AI Experience</Link><Link to="/api-keys" className="cloud-btn"><KeyRound size={16} /> API keys</Link><Link to="/console" className="cloud-btn"><Rocket size={16} /> Deploy from Console</Link></div>
+      <div className="cloud-actions"><Link to="/ai" className="cloud-btn primary"><Sparkles size={16} /> Open AI Experience</Link><Link to="/api-keys" className="cloud-btn"><KeyRound size={16} /> API keys</Link><Link to="/console" className="cloud-btn"><Rocket size={16} /> Deploy from Console</Link><ProjectPreview variant="button" /></div>
     </section>
     <section className="cloud-grid" aria-label="Server features">
       {features.map(f => <button key={f.id} type="button" className={`cloud-card ${open === f.id ? "is-open" : ""}`} aria-pressed={open === f.id} onClick={() => setOpen(f.id)}><f.icon strokeWidth={1.6} /><h2>{f.title}</h2><p>{f.short}</p></button>)}
