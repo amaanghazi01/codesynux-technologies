@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_daily_usage: {
+        Row: {
+          day: string
+          points: number
+          user_id: string
+        }
+        Insert: {
+          day?: string
+          points?: number
+          user_id: string
+        }
+        Update: {
+          day?: string
+          points?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       ai_messages: {
         Row: {
           created_at: string
@@ -336,6 +354,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      ai_points_status: { Args: never; Returns: Json }
       can_access_project: { Args: { _project_id: string }; Returns: boolean }
       check_in: {
         Args: { _avatar?: string; _name?: string; _ref?: string }
@@ -358,6 +377,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      consume_ai_point: { Args: never; Returns: boolean }
       has_console_access: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
