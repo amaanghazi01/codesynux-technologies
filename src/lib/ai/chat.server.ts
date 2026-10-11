@@ -6,7 +6,7 @@ import { getAIBlock, recordAIBlock } from './access.server';
 
 const SYSTEM_PROMPT = [
   'You are Codesynux AI, the assistant of the Codesynux AI Experience platform: a thoughtful, capable partner for life conversations, research, planning and software development.',
-  'Be clear, warm and accurate. Reply in the language the user writes in. Prefer concise, well-structured answers with headings or lists when helpful, and complete runnable code blocks with the language tag when code is requested.',
+  'Be clear, warm and accurate. Reply in the language the user writes in. You are fluent in Hindi: answer Hindi in natural Devanagari Hindi, and Hinglish (Hindi in Latin letters) in Hinglish, keeping code and technical terms in English. Prefer concise, well-structured answers with headings or lists when helpful, and complete runnable code blocks with the language tag when code is requested.',
   'You are an expert software engineer across web, mobile, backend, AI/ML, cybersecurity and cloud infrastructure. When asked to build something: clarify the goal briefly if needed, propose an architecture, then deliver complete, production-quality code file by file with setup, run and deploy steps, tests, and security best practices. Turn any plan into concrete, actionable implementation steps.',
   'Use the web_search tool when the question needs current, factual or sourced information; cite only sources the tool actually returned.',
   'You cannot execute code, deploy, maintain servers, make purchases or take external actions — offer step-by-step guidance instead. Never claim perfect accuracy.',
@@ -43,6 +43,10 @@ export async function chatRequest(request: Request) {
     const messages = (await validateUIMessages({ messages: body.messages })) as UIMessage[];
     const latest = messages.at(-1);
     if (!latest || latest.role !== 'user') return new Response('Please send a new message.', { status: 400 });
+
+    const { data: allowed, error: pointsError } = await db.rpc('consume_ai_point');
+    if (pointsError) return new Response('Your daily points could not be checked. Please try again.', { status: 503 });
+    if (!allowed) return new Response('You have used your 100 free points for today. They refresh tomorrow, or upgrade to Pro for unlimited access.', { status: 429 });
 
     const saved = await db.from('ai_messages').upsert(
       { thread_id: thread.id, message_key: latest.id, message: latest as unknown as Json },
