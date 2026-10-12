@@ -176,6 +176,7 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
             <Button variant="ghost" size="sm" className="rounded-full px-2" aria-label="Switch language" title="English / हिंदी" onClick={() => setLang(lang === "en" ? "hi" : "en")}>{lang === "en" ? "EN" : "हिं"}</Button>
             <ProjectPreview />
             <Button asChild variant="ghost" size="icon" aria-label="Open Codesynux Server" title="Codesynux Server"><Link to="/cloud-infrastructure"><Server /></Link></Button>
+            <Button asChild variant="ghost" size="icon" aria-label="Open Code Studio" title="Code Studio"><Link to="/ide"><Code2 /></Link></Button>
             <Button asChild variant="ghost" size="icon" aria-label="Open Console"><Link to="/console"><LayoutDashboard /></Link></Button>
             <Button variant="ghost" size="icon" aria-label="Start voice call" onClick={() => setCallMode("voice")}><Phone /></Button>
             <Button variant="ghost" size="icon" aria-label="Start face-to-face call" onClick={() => setCallMode("video")}><Video /></Button>
