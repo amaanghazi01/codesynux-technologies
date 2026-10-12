@@ -1,5 +1,6 @@
 # Website roadmap
 - [x] Refresh Codesynux Clouds overview and separate deployment entry; verify navigation and phone/desktop layout.
+- [x] Section-page headers: logo and menu button only, all destinations inside the menu; homepage header unchanged.
 - [x] Launch responsive Apple-inspired homepage and company-mark navigation.
 - [x] Add search, bag, profile and navigation panels.
 - [x] Add account sign-in with email, Google, Apple and international mobile entry.

@@ -327,12 +327,7 @@ button, input, select { font: inherit; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 .brand-group { display: flex; align-items: center; gap: 18px; }
-.leader-icon { display: inline-flex; align-items: center; justify-content: center; width: clamp(28px, 3vw, 34px); height: clamp(28px, 3vw, 34px); border-radius: 50%; color: var(--foreground); transition: background .2s; }
-.leader-icon:hover { background: var(--surface-soft); }
-.leader-icon svg { width: 60%; height: 60%; }
-.page-links { display: flex; align-items: center; gap: 22px; min-width: 0; }
-.page-links > a { white-space: nowrap; color: var(--muted-foreground); transition: color .2s; }
-.page-links > a:hover, .page-links > a[aria-current="page"] { color: var(--foreground); }
+.page-links { display: flex; align-items: center; justify-content: flex-end; gap: 22px; min-width: 0; }
 .page-menu-trigger { width: 32px; height: 36px; flex: none; }
 .page-menu-trigger svg { width: 19px; height: 19px; }
 .pricing-main, .leader-main, .coming-main { max-width: 1100px; margin: auto; padding: 70px 24px 100px; text-align: center; }
