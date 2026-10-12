@@ -483,3 +483,25 @@ a.social-card:hover{transform:translateY(-2px);box-shadow:0 10px 30px -15px var(
 .sl-dot { position: absolute; left: 14px; top: 21px; width: 8px; height: 8px; border-radius: 50%; background: oklch(.65 .17 150); box-shadow: 0 0 0 4px color-mix(in oklab, oklch(.65 .17 150) 20%, transparent); }
 .sl-note { text-align: center; color: var(--muted-foreground); font-size: 13px; margin-top: 16px; }
 @media (max-width: 600px) { .sl-banner { grid-template-columns: 1fr; padding: 24px; } }
+
+.deploy-panel { max-width: 860px; margin: 3rem auto; padding: 2rem; border: 1px solid var(--border); border-radius: 1.5rem; background: var(--card); }
+.deploy-panel h2 { display: flex; gap: .5rem; align-items: center; font-size: 1.6rem; font-weight: 600; margin-bottom: .5rem; }
+.deploy-panel h3 { margin: 2rem 0 .75rem; font-weight: 600; }
+.deploy-panel > p { color: var(--muted-foreground); margin-bottom: 1.25rem; }
+.deploy-form { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
+.deploy-form label { display: grid; gap: .35rem; font-size: .85rem; font-weight: 500; }
+.deploy-form input, .deploy-form textarea { width: 100%; border: 1px solid var(--border); border-radius: .75rem; padding: .6rem .8rem; background: var(--background); font: inherit; font-weight: 400; }
+.deploy-form textarea { font-family: ui-monospace, monospace; font-size: .8rem; }
+.deploy-slug { display: flex; align-items: center; border: 1px solid var(--border); border-radius: .75rem; background: var(--background); padding-left: .8rem; }
+.deploy-slug span { color: var(--muted-foreground); }
+.deploy-slug input { border: 0 !important; }
+.deploy-code, .deploy-actions, .deploy-steps { grid-column: 1 / -1; }
+.deploy-actions { display: flex; gap: .75rem; justify-content: flex-end; flex-wrap: wrap; }
+.deploy-steps { display: grid; gap: .3rem; font-size: .85rem; color: var(--muted-foreground); }
+.deploy-steps li { display: flex; gap: .4rem; align-items: center; }
+.deploy-list { display: grid; gap: .6rem; }
+.deploy-list li { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; padding: .8rem 1rem; border: 1px solid var(--border); border-radius: 1rem; }
+.deploy-list small { display: block; color: var(--muted-foreground); }
+.deploy-row-actions { display: flex; gap: .25rem; align-items: center; }
+.deploy-empty { color: var(--muted-foreground); }
+@media (max-width: 640px) { .deploy-panel { padding: 1.25rem; margin: 2rem 1rem; } .deploy-form { grid-template-columns: 1fr; } }
