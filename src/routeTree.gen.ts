@@ -25,6 +25,7 @@ import { Route as SupportRouteImport } from './routes/support'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ConsoleIndexRouteImport } from './routes/console.index'
 import { Route as ConsoleProjectIdRouteImport } from './routes/console.$projectId'
+import { Route as SSlugRouteImport } from './routes/s.$slug'
 import { Route as ApiPublicV1ChatRouteImport } from './routes/api/public/v1/chat'
 
 const IndexRoute = IndexRouteImport.update({
@@ -107,6 +108,11 @@ const ConsoleProjectIdRoute = ConsoleProjectIdRouteImport.update({
   path: '/console/$projectId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SSlugRoute = SSlugRouteImport.update({
+  id: '/s/$slug',
+  path: '/s/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicV1ChatRoute = ApiPublicV1ChatRouteImport.update({
   id: '/api/public/v1/chat',
   path: '/api/public/v1/chat',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
   '/console/$projectId': typeof ConsoleProjectIdRoute
+  '/s/$slug': typeof SSlugRoute
   '/console/': typeof ConsoleIndexRoute
   '/api/public/v1/chat': typeof ApiPublicV1ChatRoute
 }
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
   '/console/$projectId': typeof ConsoleProjectIdRoute
+  '/s/$slug': typeof SSlugRoute
   '/console': typeof ConsoleIndexRoute
   '/api/public/v1/chat': typeof ApiPublicV1ChatRoute
 }
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
   '/console/$projectId': typeof ConsoleProjectIdRoute
+  '/s/$slug': typeof SSlugRoute
   '/console/': typeof ConsoleIndexRoute
   '/api/public/v1/chat': typeof ApiPublicV1ChatRoute
 }
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/support'
     | '/api/chat'
     | '/console/$projectId'
+    | '/s/$slug'
     | '/console/'
     | '/api/public/v1/chat'
   fileRoutesByTo: FileRoutesByTo
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/support'
     | '/api/chat'
     | '/console/$projectId'
+    | '/s/$slug'
     | '/console'
     | '/api/public/v1/chat'
   id:
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/support'
     | '/api/chat'
     | '/console/$projectId'
+    | '/s/$slug'
     | '/console/'
     | '/api/public/v1/chat'
   fileRoutesById: FileRoutesById
@@ -247,6 +259,7 @@ export interface RootRouteChildren {
   SupportRoute: typeof SupportRoute
   ApiChatRoute: typeof ApiChatRoute
   ConsoleProjectIdRoute: typeof ConsoleProjectIdRoute
+  SSlugRoute: typeof SSlugRoute
   ConsoleIndexRoute: typeof ConsoleIndexRoute
   ApiPublicV1ChatRoute: typeof ApiPublicV1ChatRoute
 }
@@ -365,6 +378,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsoleProjectIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/s/$slug': {
+      id: '/s/$slug'
+      path: '/s/$slug'
+      fullPath: '/s/$slug'
+      preLoaderRoute: typeof SSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/v1/chat': {
       id: '/api/public/v1/chat'
       path: '/api/public/v1/chat'
@@ -391,6 +411,7 @@ const rootRouteChildren: RootRouteChildren = {
   SupportRoute: SupportRoute,
   ApiChatRoute: ApiChatRoute,
   ConsoleProjectIdRoute: ConsoleProjectIdRoute,
+  SSlugRoute: SSlugRoute,
   ConsoleIndexRoute: ConsoleIndexRoute,
   ApiPublicV1ChatRoute: ApiPublicV1ChatRoute,
 }

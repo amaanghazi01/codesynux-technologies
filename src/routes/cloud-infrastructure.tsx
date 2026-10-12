@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowRight, Cloud, Cpu, Database, Gauge, KeyRound, Link2, Mic, Network, Rocket, Server, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { ProjectPreview } from "@/components/project-preview";
+import { DeployPanel } from "@/components/deploy-panel";
 
 export const Route = createFileRoute("/cloud-infrastructure")({
   head: () => ({ meta: [
@@ -32,8 +33,9 @@ function CloudPage() {
       <p className="section-index">Cloud Infrastructure</p>
       <h1>Codesynux Server</h1>
       <p className="cloud-intro">The home for what you build with Codesynux AI — from planning and coding to deployment and care after launch.</p>
-      <div className="cloud-actions"><Link to="/ai" className="cloud-btn primary"><Sparkles size={16} /> Open AI Experience</Link><Link to="/api-keys" className="cloud-btn"><KeyRound size={16} /> API keys</Link><Link to="/console" className="cloud-btn"><Rocket size={16} /> Deploy from Console</Link><ProjectPreview variant="button" /></div>
+      <div className="cloud-actions"><a href="#deploy" className="cloud-btn primary"><Rocket size={16} /> Deploy a website</a><Link to="/ai" className="cloud-btn"><Sparkles size={16} /> Open AI Experience</Link><Link to="/api-keys" className="cloud-btn"><KeyRound size={16} /> API keys</Link><ProjectPreview variant="button" /></div>
     </section>
+    <DeployPanel />
     <section className="sl-banner" aria-label="AI Serverless Cloud">
       <div className="sl-icon" aria-hidden="true"><Cloud strokeWidth={1.5} /></div>
       <div><p className="section-index">AI Serverless Cloud</p><h2>No servers to manage. It scales by itself.</h2><p>Codesynux AI runs on serverless cloud: code starts only when someone sends a message, grows automatically with traffic, and restarts cleanly if something fails.</p>

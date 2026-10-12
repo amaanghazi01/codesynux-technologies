@@ -43,6 +43,13 @@
       "when": 1791714101364,
       "tag": "0005_points_reset_india_midnight",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791797175640,
+      "tag": "0006_hosted_sites",
+      "breakpoints": true
     }
   ]
 }
