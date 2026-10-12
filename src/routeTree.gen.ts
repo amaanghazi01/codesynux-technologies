@@ -18,6 +18,7 @@ import { Route as CloudInfrastructureRouteImport } from './routes/cloud-infrastr
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CybersecurityRouteImport } from './routes/cybersecurity'
 import { Route as DocumentationRouteImport } from './routes/documentation'
+import { Route as IdeRouteImport } from './routes/ide'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as SupportRouteImport } from './routes/support'
@@ -71,6 +72,11 @@ const DocumentationRoute = DocumentationRouteImport.update({
   path: '/documentation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IdeRoute = IdeRouteImport.update({
+  id: '/ide',
+  path: '/ide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LeaderboardRoute = LeaderboardRouteImport.update({
   id: '/leaderboard',
   path: '/leaderboard',
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/cybersecurity': typeof CybersecurityRoute
   '/documentation': typeof DocumentationRoute
+  '/ide': typeof IdeRoute
   '/leaderboard': typeof LeaderboardRoute
   '/pricing': typeof PricingRoute
   '/support': typeof SupportRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/cybersecurity': typeof CybersecurityRoute
   '/documentation': typeof DocumentationRoute
+  '/ide': typeof IdeRoute
   '/leaderboard': typeof LeaderboardRoute
   '/pricing': typeof PricingRoute
   '/support': typeof SupportRoute
@@ -154,6 +162,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/cybersecurity': typeof CybersecurityRoute
   '/documentation': typeof DocumentationRoute
+  '/ide': typeof IdeRoute
   '/leaderboard': typeof LeaderboardRoute
   '/pricing': typeof PricingRoute
   '/support': typeof SupportRoute
@@ -174,6 +183,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cybersecurity'
     | '/documentation'
+    | '/ide'
     | '/leaderboard'
     | '/pricing'
     | '/support'
@@ -192,6 +202,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cybersecurity'
     | '/documentation'
+    | '/ide'
     | '/leaderboard'
     | '/pricing'
     | '/support'
@@ -210,6 +221,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cybersecurity'
     | '/documentation'
+    | '/ide'
     | '/leaderboard'
     | '/pricing'
     | '/support'
@@ -229,6 +241,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CybersecurityRoute: typeof CybersecurityRoute
   DocumentationRoute: typeof DocumentationRoute
+  IdeRoute: typeof IdeRoute
   LeaderboardRoute: typeof LeaderboardRoute
   PricingRoute: typeof PricingRoute
   SupportRoute: typeof SupportRoute
@@ -303,6 +316,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocumentationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ide': {
+      id: '/ide'
+      path: '/ide'
+      fullPath: '/ide'
+      preLoaderRoute: typeof IdeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/leaderboard': {
       id: '/leaderboard'
       path: '/leaderboard'
@@ -365,6 +385,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CybersecurityRoute: CybersecurityRoute,
   DocumentationRoute: DocumentationRoute,
+  IdeRoute: IdeRoute,
   LeaderboardRoute: LeaderboardRoute,
   PricingRoute: PricingRoute,
   SupportRoute: SupportRoute,
