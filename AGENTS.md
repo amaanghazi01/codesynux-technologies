@@ -17,3 +17,4 @@
 - Console access is granted only through owner/pro rows in user_roles, checked by security-definer functions in RLS; this keeps paid/owner access server-enforced.
 - Codesynux API keys are stored only as SHA-256 hashes and served via /api/public/v1/chat with per-key per-minute fair-use limits; this keeps keys unrecoverable and credits protected.
 - Shared content-page navigation uses PageShell with an accessible dropdown for secondary destinations; this keeps compact header links usable on narrow screens.
+- Keep the cloud overview at its existing public URL and deployment in a separate leaf route reusing DeployPanel; this preserves inbound links and separates the entry experience from hosting controls.

@@ -15,6 +15,7 @@ import { Route as AiRouteImport } from './routes/ai'
 import { Route as ApiKeysRouteImport } from './routes/api-keys'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CloudInfrastructureRouteImport } from './routes/cloud-infrastructure'
+import { Route as CloudsDeployRouteImport } from './routes/clouds-deploy'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CybersecurityRouteImport } from './routes/cybersecurity'
 import { Route as DocumentationRouteImport } from './routes/documentation'
@@ -56,6 +57,11 @@ const AuthRoute = AuthRouteImport.update({
 const CloudInfrastructureRoute = CloudInfrastructureRouteImport.update({
   id: '/cloud-infrastructure',
   path: '/cloud-infrastructure',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CloudsDeployRoute = CloudsDeployRouteImport.update({
+  id: '/clouds-deploy',
+  path: '/clouds-deploy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
+  '/clouds-deploy': typeof CloudsDeployRoute
   '/contact': typeof ContactRoute
   '/cybersecurity': typeof CybersecurityRoute
   '/documentation': typeof DocumentationRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
+  '/clouds-deploy': typeof CloudsDeployRoute
   '/contact': typeof ContactRoute
   '/cybersecurity': typeof CybersecurityRoute
   '/documentation': typeof DocumentationRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
   '/cloud-infrastructure': typeof CloudInfrastructureRoute
+  '/clouds-deploy': typeof CloudsDeployRoute
   '/contact': typeof ContactRoute
   '/cybersecurity': typeof CybersecurityRoute
   '/documentation': typeof DocumentationRoute
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/api-keys'
     | '/auth'
     | '/cloud-infrastructure'
+    | '/clouds-deploy'
     | '/contact'
     | '/cybersecurity'
     | '/documentation'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/api-keys'
     | '/auth'
     | '/cloud-infrastructure'
+    | '/clouds-deploy'
     | '/contact'
     | '/cybersecurity'
     | '/documentation'
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/api-keys'
     | '/auth'
     | '/cloud-infrastructure'
+    | '/clouds-deploy'
     | '/contact'
     | '/cybersecurity'
     | '/documentation'
@@ -250,6 +262,7 @@ export interface RootRouteChildren {
   ApiKeysRoute: typeof ApiKeysRoute
   AuthRoute: typeof AuthRoute
   CloudInfrastructureRoute: typeof CloudInfrastructureRoute
+  CloudsDeployRoute: typeof CloudsDeployRoute
   ContactRoute: typeof ContactRoute
   CybersecurityRoute: typeof CybersecurityRoute
   DocumentationRoute: typeof DocumentationRoute
@@ -306,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/cloud-infrastructure'
       fullPath: '/cloud-infrastructure'
       preLoaderRoute: typeof CloudInfrastructureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clouds-deploy': {
+      id: '/clouds-deploy'
+      path: '/clouds-deploy'
+      fullPath: '/clouds-deploy'
+      preLoaderRoute: typeof CloudsDeployRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -402,6 +422,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiKeysRoute: ApiKeysRoute,
   AuthRoute: AuthRoute,
   CloudInfrastructureRoute: CloudInfrastructureRoute,
+  CloudsDeployRoute: CloudsDeployRoute,
   ContactRoute: ContactRoute,
   CybersecurityRoute: CybersecurityRoute,
   DocumentationRoute: DocumentationRoute,
