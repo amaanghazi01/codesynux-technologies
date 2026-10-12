@@ -38,10 +38,10 @@ export function DeployPanel() {
     });
   }, []);
 
-  const deploy = async () => {
+  const deploy = async (): Promise<void> => {
     const s = slug.trim().toLowerCase();
-    if (!/^[a-z0-9][a-z0-9-]{2,39}$/.test(s)) return toast.error("Address: 3–40 lowercase letters, numbers or dashes.");
-    if (!html.trim()) return toast.error("Add your website code first.");
+    if (!/^[a-z0-9][a-z0-9-]{2,39}$/.test(s)) { toast.error("Address: 3–40 lowercase letters, numbers or dashes.");
+    if (!html.trim()) { toast.error("Add your website code first.");
     setBusy(true); setSteps(["Checking code…"]);
     const existing = sites.find(x => x.slug === s);
     const res = existing
@@ -49,7 +49,7 @@ export function DeployPanel() {
       : await supabase.from("hosted_sites").insert({ slug: s, title, html });
     if (res.error) {
       setBusy(false); setSteps([]);
-      return toast.error(res.error.code === "23505" ? "That address is taken. Try another." : res.error.code === "42501" ? "Limit reached: 10 sites per account." : "Deploy failed. Please try again.");
+      { toast.error(res.error.code === "23505" ? "That address is taken. Try another." : res.error.code === "42501" ? "Limit reached: 10 sites per account." : "Deploy failed. Please try again.");
     }
     setSteps(["Checking code…", "Uploading to Codesynux Server…", "Live worldwide ✓"]);
     setBusy(false); toast.success("Your website is live!");
