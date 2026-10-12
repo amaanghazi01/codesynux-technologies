@@ -292,6 +292,39 @@ export type Database = {
           },
         ]
       }
+      hosted_sites: {
+        Row: {
+          created_at: string
+          deploys: number
+          html: string
+          id: string
+          slug: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          deploys?: number
+          html: string
+          id?: string
+          slug: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          deploys?: number
+          html?: string
+          id?: string
+          slug?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       leaderboard_profiles: {
         Row: {
           avatar_url: string | null
