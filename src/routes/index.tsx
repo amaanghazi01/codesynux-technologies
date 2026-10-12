@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Trophy, ArrowRight, Bookmark, CircleUserRound, KeyRound, Menu, Search, ShoppingBag, X } from "lucide-react";
+import { Award, ArrowRight, CircleUserRound, Fingerprint, LogIn, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import mark from "@/assets/codesynux-mark.png.asset.json";
@@ -41,7 +41,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [panel, setPanel] = useState<"search" | "bag" | "menu" | null>(null);
+  const [panel, setPanel] = useState<"search" | "profile" | "menu" | null>(null);
   const [query, setQuery] = useState("");
   const [signedIn, setSignedIn] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -70,19 +70,19 @@ function Index() {
     <header className="global-header">
       <nav className="global-nav" aria-label="Main navigation">
         <div className="brand-group"><Link to="/" className="brand-link" aria-label="Codesynux home" onClick={() => setPanel(null)}><img src={mark.url} width="36" height="36" alt="" /></Link></div>
-        <div className="desktop-nav">{navigation.map(item => { const destination = routes[item.id]; return destination ? <Link key={item.id} to={destination}>{item.id === "api-keys" && <KeyRound size={14} />}{item.label}</Link> : <a key={item.id} href={`#${item.id}`}>{item.label}</a>; })}</div>
+        <div className="desktop-nav">{navigation.map(item => { const destination = routes[item.id]; return destination ? <Link key={item.id} to={destination}>{item.id === "api-keys" && <Fingerprint size={14} />}{item.label}</Link> : <a key={item.id} href={`#${item.id}`}>{item.label}</a>; })}</div>
         <div className="nav-actions">
           <Button variant="ghost" size="icon" className="nav-icon" aria-label="Search" aria-expanded={panel === "search"} onClick={() => setPanel(panel === "search" ? null : "search")}><Search strokeWidth={1.7}/></Button>
-          <Button variant="ghost" size="icon" className="nav-icon" aria-label="Bag" aria-expanded={panel === "bag"} onClick={() => setPanel(panel === "bag" ? null : "bag")}><ShoppingBag strokeWidth={1.7}/></Button>
+          <Button variant="ghost" size="icon" className="nav-icon" aria-label="My Profile" title="My Profile" aria-expanded={panel === "profile"} onClick={() => setPanel(panel === "profile" ? null : "profile")}><CircleUserRound strokeWidth={1.7}/></Button>
           <Button variant="ghost" size="icon" className="nav-icon mobile-menu-button" aria-label="Menu" aria-expanded={panel === "menu"} onClick={() => setPanel(panel === "menu" ? null : "menu")}><Menu strokeWidth={1.7}/></Button>
         </div>
       </nav>
     </header>
-    {panel && <><div className="panel-scrim" onClick={() => setPanel(null)} aria-hidden="true" /><div className={`nav-panel ${panel === "menu" ? "menu-panel" : ""}`} role="dialog" aria-modal="true" aria-label={panel === "search" ? "Search" : panel === "bag" ? "Bag" : "Menu"}>
+    {panel && <><div className="panel-scrim" onClick={() => setPanel(null)} aria-hidden="true" /><div className={`nav-panel ${panel === "menu" ? "menu-panel" : ""}`} role="dialog" aria-modal="true" aria-label={panel === "search" ? "Search" : panel === "profile" ? "My Profile" : "Menu"}>
       <div className="panel-inner"><Button variant="ghost" size="icon" className="panel-close" aria-label="Close" onClick={() => setPanel(null)}><X strokeWidth={1.5}/></Button>
         {panel === "search" && <div className="search-panel-content"><div className="search-field"><Search strokeWidth={1.5} /><input ref={searchRef} aria-label="Search Codesynux" placeholder="Search Codesynux" value={query} onChange={e => setQuery(e.target.value)} /></div><p className="panel-label">{query ? "Results" : "Quick Links"}</p><div className="panel-list">{filteredLinks.length ? filteredLinks.map(item => <Button variant="ghost" key={item.id} className="panel-list-item" onClick={() => closeAndScroll(item.id)}><ArrowRight />{item.label}</Button>) : <p className="panel-empty">No matches found.</p>}</div></div>}
-        {panel === "bag" && <div className="bag-panel-content"><h2>Your Bag is empty.</h2><p className="bag-subline">{signedIn ? "Your saved items and orders are ready when you are." : <><Link to="/auth">Sign in</Link> to see if you have any saved items.</>}</p><p className="panel-label">My Profile</p><div className="panel-list profile-list"><Link to="/account" search={{ view: "account" }} onClick={() => setPanel(null)}><CircleUserRound />My Profile</Link><Link to="/leaderboard" onClick={() => setPanel(null)}><Trophy />Leaderboard</Link><Link to="/account" search={{ view: "saves" }} onClick={() => setPanel(null)}><Bookmark />Your Saves</Link>{!signedIn && <Link to="/auth" onClick={() => setPanel(null)}><CircleUserRound />Sign in / Sign up</Link>}<Link to="/api-keys" onClick={() => setPanel(null)}><KeyRound />API keys</Link></div></div>}
-        {panel === "menu" && <div className="menu-panel-content">{navigation.map(item => { const destination = routes[item.id]; return destination ? <Button asChild variant="ghost" key={item.id}><Link to={destination} onClick={() => setPanel(null)}>{item.id === "api-keys" && <KeyRound />}{item.label}</Link></Button> : <Button variant="ghost" key={item.id} onClick={() => closeAndScroll(item.id)}>{item.label}</Button>; })}</div>}
+        {panel === "profile" && <div className="bag-panel-content"><h2>Your ideas. Your future.<br />Your Codesynux.</h2><p className="bag-subline">A place to think, create and grow with AI — together.</p><p className="panel-label">My Profile</p><div className="panel-list profile-list"><Link to="/account" search={{ view: "account" }} onClick={() => setPanel(null)}><CircleUserRound strokeWidth={1.6} />My Account</Link><Link to="/leaderboard" onClick={() => setPanel(null)}><Award strokeWidth={1.6} />Leaderboard</Link><Link to="/api-keys" onClick={() => setPanel(null)}><Fingerprint strokeWidth={1.6} />API keys</Link>{!signedIn && <Link to="/auth" onClick={() => setPanel(null)}><LogIn strokeWidth={1.6} />Sign in / Sign up</Link>}</div></div>}
+        {panel === "menu" && <div className="menu-panel-content">{navigation.map(item => { const destination = routes[item.id]; return destination ? <Button asChild variant="ghost" key={item.id}><Link to={destination} onClick={() => setPanel(null)}>{item.id === "api-keys" && <Fingerprint />}{item.label}</Link></Button> : <Button variant="ghost" key={item.id} onClick={() => closeAndScroll(item.id)}>{item.label}</Button>; })}</div>}
       </div>
     </div></>}
     <main>
