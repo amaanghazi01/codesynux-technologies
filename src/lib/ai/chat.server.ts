@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { convertToModelMessages, validateUIMessages, type UIMessage } from 'ai';
+import { convertToModelMessages, createUIMessageStream, createUIMessageStreamResponse, validateUIMessages, type UIMessage } from 'ai';
+import { findSavedAnswer } from './saved-answers.server';
 import type { Database, Json } from '@/integrations/supabase/types';
 import { createResponsesCall } from './responses.server';
 import { getAIBlock, recordAIBlock } from './access.server';
@@ -43,6 +44,29 @@ export async function chatRequest(request: Request) {
     const messages = (await validateUIMessages({ messages: body.messages })) as UIMessage[];
     const latest = messages.at(-1);
     if (!latest || latest.role !== 'user') return new Response('Please send a new message.', { status: 400 });
+
+    const latestText = latest.parts.map(p => (p.type === 'text' ? p.text : '')).join(' ');
+    const savedAnswer = findSavedAnswer(latestText);
+    if (savedAnswer) {
+      const persist = async (all: UIMessage[]) => {
+        const rows = all.slice(-2).map(m => ({ thread_id: thread.id, message_key: m.id, message: m as unknown as Json }));
+        const { error } = await db.from('ai_messages').upsert(rows, { onConflict: 'thread_id,message_key' });
+        if (error) console.error('Saved answer store failed', error.code);
+      };
+      const stream = createUIMessageStream({
+        originalMessages: messages,
+        generateId: () => crypto.randomUUID(),
+        execute: ({ writer }) => {
+          writer.write({ type: 'start' });
+          writer.write({ type: 'text-start', id: 't' });
+          writer.write({ type: 'text-delta', id: 't', delta: savedAnswer });
+          writer.write({ type: 'text-end', id: 't' });
+          writer.write({ type: 'finish' });
+        },
+        onFinish: ({ messages: all }) => persist(all),
+      });
+      return createUIMessageStreamResponse({ stream });
+    }
 
     const { data: allowed, error: pointsError } = await db.rpc('consume_ai_point');
     if (pointsError) return new Response('Your daily points could not be checked. Please try again.', { status: 503 });
