@@ -6,7 +6,7 @@ describe('AI attachments', () => {
   it('rejects an eleventh file', () => expect(() => validateAttachments(Array(11).fill(file))).toThrow('10'));
   it('rejects remote URLs', () => expect(() => validateAttachments([{ ...file, url: 'https://example.com/private' }])).toThrow('device'));
   it('includes the uploaded code in model input', () => {
-    const parts = modelReadyMessages([{ id: 'user', role: 'user', parts: [file] }])[0].parts;
-    expect(parts[0]).toEqual({ type: 'text', text: 'Attached file: code.txt\n<untrusted-file>\nhello\n</untrusted-file>' });
+    const parts = modelReadyMessages([{ id: 'user', role: 'user', parts: [file] }])[0]?.parts;
+    expect(parts?.[0]).toEqual({ type: 'text', text: 'Attached file: code.txt\n<untrusted-file>\nhello\n</untrusted-file>' });
   });
 });
