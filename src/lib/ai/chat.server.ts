@@ -4,6 +4,7 @@ import { findSavedAnswer } from './saved-answers.server';
 import type { Database, Json } from '@/integrations/supabase/types';
 import { createResponsesCall } from './responses.server';
 import { getAIBlock, recordAIBlock } from './access.server';
+import { languages, modelReadyMessages, validateAttachments } from './workspace-options';
 
 const SYSTEM_PROMPT = [
   'You are Codesynux AI, the assistant of the Codesynux AI Experience platform: a thoughtful, capable partner for life conversations, research, planning and software development.',
@@ -30,7 +31,7 @@ export async function chatRequest(request: Request) {
     const { data: auth, error: authError } = await db.auth.getUser(token.slice(7));
     if (authError || !auth.user) return new Response('Your session expired. Please sign in again.', { status: 401 });
 
-    const body = (await request.json()) as { id?: unknown; messages?: unknown };
+    const body = (await request.json()) as { id?: unknown; messages?: unknown; language?: unknown; mode?: unknown };
     if (typeof body.id !== 'string' || !Array.isArray(body.messages)) return new Response('Invalid conversation.', { status: 400 });
     const { data: thread, error: threadError } = await db
       .from('ai_threads').select('id').eq('id', body.id).eq('user_id', auth.user.id).maybeSingle();
@@ -44,9 +45,19 @@ export async function chatRequest(request: Request) {
     const messages = (await validateUIMessages({ messages: body.messages })) as UIMessage[];
     const latest = messages.at(-1);
     if (!latest || latest.role !== 'user') return new Response('Please send a new message.', { status: 400 });
+    try {
+      for (const message of messages) validateAttachments(message.parts.flatMap(part => part.type === 'file' ? [part] : []));
+    } catch (error) {
+      return new Response(error instanceof Error ? error.message : 'Invalid attachments.', { status: 400 });
+    }
+    const language = languages.find(item => item.code === body.language);
+    const languageInstruction = language && language.code !== 'auto'
+      ? language.code === 'hinglish' ? 'Reply in Hinglish: Hindi expressed in English letters, with a short Devanagari Hindi meaning when helpful.' : `Reply in ${language.name}.`
+      : '';
+    const modeInstruction = body.mode === 'code' ? 'Code mode: focus on runnable implementation, testing and clear setup instructions.' : body.mode === 'plan' ? 'Plan mode: focus on requirements, decisions and milestones; do not write implementation code unless explicitly requested.' : 'Chat mode: converse naturally and answer the question directly.';
 
     const latestText = latest.parts.map(p => (p.type === 'text' ? p.text : '')).join(' ');
-    const savedAnswer = findSavedAnswer(latestText);
+    const savedAnswer = latest.parts.some(part => part.type === 'file') || (language && !['auto', 'en'].includes(language.code)) ? null : findSavedAnswer(latestText);
     if (savedAnswer) {
       const persist = async (all: UIMessage[]) => {
         const rows = all.slice(-2).map(m => ({ thread_id: thread.id, message_key: m.id, message: m as unknown as Json }));
@@ -81,8 +92,8 @@ export async function chatRequest(request: Request) {
     const call = createResponsesCall(
       request,
       { baseURL: 'https://ai.gateway.lovable.dev/v1', apiKey, model: 'openai/gpt-6-astra' },
-      await convertToModelMessages(messages),
-      SYSTEM_PROMPT,
+      await convertToModelMessages(modelReadyMessages(messages)),
+      [SYSTEM_PROMPT, languageInstruction, modeInstruction].join(' '),
     );
     return await call.response({
       originalMessages: messages,
