@@ -1,14 +1,188 @@
-import { useState } from 'react';
-import { Link } from '@tanstack/react-router';
-import { SlidersHorizontal, Sun, Moon, Languages, Code2, Home, CircleUserRound, Trash2, AudioLines } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { PointsBadge } from './points-badge';
-import { languages } from '@/lib/ai/workspace-options';
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import {
+  SlidersHorizontal,
+  Sun,
+  Moon,
+  Languages,
+  Code2,
+  Home,
+  CircleUserRound,
+  Trash2,
+  AudioLines,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { PointsBadge } from "./points-badge";
+import { languages } from "@/lib/ai/workspace-options";
 
-export function WorkspaceSettings({ dark, setDark, voice, setVoice, language, setLanguage, refreshKey, onClear, canClear }: { dark: boolean; setDark: (v: boolean) => void; voice: string; setVoice: (v: string) => void; language: string; setLanguage: (v: string) => void; refreshKey: number; onClear: () => void; canClear: boolean }) {
+export function WorkspaceSettings({
+  dark,
+  setDark,
+  voice,
+  setVoice,
+  language,
+  setLanguage,
+  refreshKey,
+  onClear,
+  canClear,
+}: {
+  dark: boolean;
+  setDark: (v: boolean) => void;
+  voice: string;
+  setVoice: (v: string) => void;
+  language: string;
+  setLanguage: (v: string) => void;
+  refreshKey: number;
+  onClear: () => void;
+  canClear: boolean;
+}) {
   const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState('');
-  const visible = languages.filter(l => `${l.name} ${l.code}`.toLowerCase().includes(search.toLowerCase()));
-  return <><Button variant="ghost" size="icon" aria-label="Codesynux AI settings" title="Settings" className="shrink-0 rounded-full" onClick={() => setOpen(true)}><SlidersHorizontal strokeWidth={1.7}/></Button><Dialog open={open} onOpenChange={setOpen}><DialogContent className="max-h-[90dvh] w-[calc(100%-2rem)] overflow-auto rounded-lg"><DialogTitle>Codesynux AI settings</DialogTitle><DialogDescription>Your space. Your way.</DialogDescription><div className="flex items-center justify-between border-b border-border pb-4"><span className="text-sm font-medium">Your access</span><PointsBadge refreshKey={refreshKey}/></div><div className="flex items-center justify-between gap-3"><span className="text-sm font-medium">Appearance</span><div className="flex gap-1"><Button variant={!dark ? 'secondary' : 'ghost'} size="sm" aria-pressed={!dark} onClick={() => setDark(false)}><Sun size={16}/>Light</Button><Button variant={dark ? 'secondary' : 'ghost'} size="sm" aria-pressed={dark} onClick={() => setDark(true)}><Moon size={16}/>Dark</Button></div></div><label className="flex items-center justify-between gap-3 text-sm"><span className="flex items-center gap-2"><AudioLines size={17}/>Voice</span><select aria-label="Voice" value={voice} onChange={e => setVoice(e.target.value)} className="rounded-md border border-border bg-background p-2 capitalize">{['marin','gleam','meridian','quartz','ripple','vesper','willow','stone','delta','cinder'].map(v => <option key={v}>{v}</option>)}</select></label><div className="grid gap-1 border-y border-border py-2"><Button asChild variant="ghost" className="justify-start"><Link to="/ide"><Code2/>Code Studio</Link></Button><Button asChild variant="ghost" className="justify-start"><Link to="/account" search={{ view: 'account' }}><CircleUserRound/>My Account</Link></Button><Button asChild variant="ghost" className="justify-start"><Link to="/"><Home/>Codesynux home</Link></Button><Button variant="ghost" disabled={!canClear} className="justify-start text-destructive" onClick={() => { setOpen(false); onClear(); }}><Trash2/>Clear conversation</Button></div><div className="space-y-2"><label className="flex items-center gap-2 text-sm font-medium" htmlFor="language-search"><Languages size={18}/>Language</label><input id="language-search" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search languages…" className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"/><select aria-label="Response language" value={language} onChange={e => setLanguage(e.target.value)} className="w-full rounded-md border border-input bg-background p-2 text-sm"><option value={language}>{languages.find(l => l.code === language)?.name ?? 'Automatic'}</option>{visible.filter(l => l.code !== language).map(l => <option key={l.code} value={l.code}>{l.name}</option>)}</select><p className="text-xs text-muted-foreground">Living languages worldwide. Answer quality and spoken-language support vary by language.</p></div></DialogContent></Dialog></>;
+  const [search, setSearch] = useState("");
+  const visible = languages.filter((l) =>
+    `${l.name} ${l.code}`.toLowerCase().includes(search.toLowerCase()),
+  );
+  return (
+    <>
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-label="Codesynux AI settings"
+        title="Settings"
+        className="shrink-0 rounded-full"
+        onClick={() => setOpen(true)}
+      >
+        <SlidersHorizontal strokeWidth={1.7} />
+      </Button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-h-[90dvh] w-[calc(100%-2rem)] overflow-auto rounded-lg">
+          <DialogTitle>Codesynux AI settings</DialogTitle>
+          <DialogDescription>Your space. Your way.</DialogDescription>
+          <div className="flex items-center justify-between border-b border-border pb-4">
+            <span className="text-sm font-medium">Your access</span>
+            <PointsBadge refreshKey={refreshKey} />
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-sm font-medium">Appearance</span>
+            <div className="flex gap-1">
+              <Button
+                variant={!dark ? "secondary" : "ghost"}
+                size="sm"
+                aria-pressed={!dark}
+                onClick={() => setDark(false)}
+              >
+                <Sun size={16} />
+                Light
+              </Button>
+              <Button
+                variant={dark ? "secondary" : "ghost"}
+                size="sm"
+                aria-pressed={dark}
+                onClick={() => setDark(true)}
+              >
+                <Moon size={16} />
+                Dark
+              </Button>
+            </div>
+          </div>
+          <label className="flex items-center justify-between gap-3 text-sm">
+            <span className="flex items-center gap-2">
+              <AudioLines size={17} />
+              Voice
+            </span>
+            <select
+              aria-label="Voice"
+              value={voice}
+              onChange={(e) => setVoice(e.target.value)}
+              className="rounded-md border border-border bg-background p-2 capitalize"
+            >
+              {[
+                "marin",
+                "gleam",
+                "meridian",
+                "quartz",
+                "ripple",
+                "vesper",
+                "willow",
+                "stone",
+                "delta",
+                "cinder",
+              ].map((v) => (
+                <option key={v}>{v}</option>
+              ))}
+            </select>
+          </label>
+          <div className="grid gap-1 border-y border-border py-2">
+            <Button asChild variant="ghost" className="justify-start">
+              <Link to="/ide">
+                <Code2 />
+                Code Studio
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" className="justify-start">
+              <Link to="/account" search={{ view: "account" }}>
+                <CircleUserRound />
+                My Account
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" className="justify-start">
+              <Link to="/">
+                <Home />
+                Codesynux home
+              </Link>
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={!canClear}
+              className="justify-start text-destructive"
+              onClick={() => {
+                setOpen(false);
+                onClear();
+              }}
+            >
+              <Trash2 />
+              Clear conversation
+            </Button>
+          </div>
+          <div className="space-y-2">
+            <label
+              className="flex items-center gap-2 text-sm font-medium"
+              htmlFor="language-search"
+            >
+              <Languages size={18} />
+              Language
+            </label>
+            <input
+              id="language-search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search languages…"
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            />
+            <select
+              aria-label="Response language"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="w-full rounded-md border border-input bg-background p-2 text-sm"
+            >
+              <option value={language}>
+                {languages.find((l) => l.code === language)?.name ?? "Automatic"}
+              </option>
+              {visible
+                .filter((l) => l.code !== language)
+                .map((l) => (
+                  <option key={l.code} value={l.code}>
+                    {l.name}
+                  </option>
+                ))}
+            </select>
+            <p className="text-xs text-muted-foreground">
+              Living languages worldwide. Answer quality and spoken-language support vary by
+              language.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }
