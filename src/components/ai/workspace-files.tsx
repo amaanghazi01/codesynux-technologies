@@ -8,7 +8,7 @@ import { PromptInputButton, PromptInputHeader, PromptInputSubmit, usePromptInput
 import type { ChatStatus } from 'ai';
 
 export function FileStrip({ files, onOpen, onRemove }: { files: (FileUIPart & { id: string })[]; onOpen: (file: FileUIPart) => void; onRemove?: (id: string) => void }) {
-  return <Attachments variant="inline" className="max-w-full">{files.map(file => <Attachment key={file.id} data={file} className="max-w-full bg-background text-foreground" {...(onRemove ? { onRemove: () => onRemove(file.id) } : {})}><Button variant="ghost" size="sm" className="h-7 min-w-0 gap-2 px-1" onClick={() => onOpen(file)} title={`Open ${file.filename}`}><AttachmentPreview /><AttachmentInfo /></Button><AttachmentRemove className="opacity-100" /></Attachment>)}</Attachments>;
+  return <Attachments variant="inline" className="max-w-full">{files.map(file => <Attachment key={file.id} data={file} className="max-w-full bg-background text-foreground" {...(onRemove ? { onRemove: () => onRemove(file.id) } : {})}><Button type="button" variant="ghost" size="sm" className="h-7 min-w-0 gap-2 px-1" onClick={() => onOpen(file)} title={`Open ${file.filename}`}><AttachmentPreview /><AttachmentInfo /></Button><AttachmentRemove className="opacity-100" /></Attachment>)}</Attachments>;
 }
 export function ComposerFiles({ onOpen }: { onOpen: (file: FileUIPart) => void }) {
   const attachments = usePromptInputAttachments();

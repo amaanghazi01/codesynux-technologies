@@ -605,10 +605,10 @@ export const PromptInput = ({
         const capped =
           typeof capacity === "number" ? sized.slice(0, capacity) : sized;
         if (typeof capacity === "number" && sized.length > capacity) {
-          onError?.({
+          queueMicrotask(() => onError?.({
             code: "max_files",
             message: "Too many files. Some were not added.",
-          });
+          }));
         }
         const next: (FileUIPart & { id: string })[] = [];
         for (const file of capped) {
