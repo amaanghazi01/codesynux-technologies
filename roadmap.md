@@ -1,5 +1,6 @@
 # Website roadmap
-- [ ] Refresh AI header/settings, worldwide languages, ten attachments, Code/Chat/Plan modes and rotating quotes; verify signed-in phone/desktop use.
+- [x] Refresh AI header/settings, worldwide languages, ten attachments, Code/Chat/Plan modes and rotating quotes; signed-in settings, persistence and file previews checked on phone/desktop.
+- [ ] Verify a real AI attachment answer — blocked by the AI service reporting “Not enough credits”.
 - [x] Refresh Codesynux Clouds overview and separate deployment entry; verify navigation and phone/desktop layout.
 - [x] Section-page headers: logo and menu button only, all destinations inside the menu; homepage header unchanged.
 - [x] Launch responsive Apple-inspired homepage and company-mark navigation.

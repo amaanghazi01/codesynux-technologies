@@ -13,6 +13,7 @@
 - Use Lovable Cloud authentication for account access and keep orders/saves as honest empty states until their data workflows are defined; this avoids fake records.
 - AI workspace has one conversation per account with account-scoped AI SDK messages and no thread sidebar; this preserves the explicit single-conversation choice.
 - Streaming chat uses AI Elements and server-only Gateway Responses helpers; this keeps message transport compatible and secrets private.
+- AI workspace settings and attachment previews are separate UI modules; validate inline image/text/code files on the server and convert documents to untrusted text before model input so uploads stay account-scoped and readable.
 - Live calls use the documented persistent relay and hook, with a Vite adapter and server-entry dispatch; this preserves heartbeat and Stop cleanup.
 - Console access is granted only through owner/pro rows in user_roles, checked by security-definer functions in RLS; this keeps paid/owner access server-enforced.
 - Codesynux API keys are stored only as SHA-256 hashes and served via /api/public/v1/chat with per-key per-minute fair-use limits; this keeps keys unrecoverable and credits protected.

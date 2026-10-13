@@ -170,6 +170,27 @@
   --surface-dark-foreground: oklch(.99 0 0);
   --shadow-panel: 0 22px 50px oklch(.16 .01 250 / .12);
 }
+/* Keep editorial overrides from winning over the saved AI dark appearance. */
+:root.dark {
+  --background: oklch(.17 .006 260);
+  --foreground: oklch(.97 .002 260);
+  --card: oklch(.21 .006 260);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(.72 .14 255);
+  --primary-foreground: oklch(.17 .006 260);
+  --secondary: oklch(.25 .006 260);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--secondary);
+  --muted-foreground: oklch(.73 .008 260);
+  --accent: oklch(.29 .009 260);
+  --accent-foreground: var(--foreground);
+  --border: oklch(.35 .006 260);
+  --input: var(--border);
+  --ring: var(--primary);
+  color-scheme: dark;
+}
 @theme inline {
   --color-surface-soft: var(--surface-soft);
   --color-surface-ice: var(--surface-ice);
