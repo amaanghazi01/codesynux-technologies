@@ -16,6 +16,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { WorkspaceSettings } from "@/components/ai/workspace-settings";
+import { WorkspaceProject } from "@/components/ai/workspace-project";
 import {
   AddFiles,
   ComposerFiles,
@@ -302,10 +303,7 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
   return (
     <div className="flex h-dvh flex-col bg-background text-foreground">
       <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border/50 px-4 py-3 sm:px-6">
-        <Link to="/" aria-label="Codesynux home" className="flex min-w-0 items-center gap-2">
-          <img src={mark.url} alt="" width={28} height={28} className="shrink-0 dark:invert" />
-          <span className="text-sm font-semibold">Codesynux AI</span>
-        </Link>
+        <WorkspaceProject conversationId={id} />
         <WorkspaceSettings
           dark={dark}
           setDark={setDark}
@@ -319,9 +317,6 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
         />
       </header>
       <main className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <div className="mx-auto w-full max-w-3xl px-4 pt-4">
-          <h1 className="text-sm font-medium text-muted-foreground">Codesynux Technologies</h1>
-        </div>
         <Conversation className="min-h-0 flex-1">
           <ConversationContent className="mx-auto w-full max-w-3xl px-4">
             {!messages.length ? (
