@@ -16,7 +16,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { WorkspaceSettings } from "@/components/ai/workspace-settings";
-import { WorkspaceProject } from "@/components/ai/workspace-project";
+import { ProjectLauncher } from "@/components/ai/project-launcher";
 import {
   AddFiles,
   ComposerFiles,
@@ -303,7 +303,7 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
   return (
     <div className="flex h-dvh flex-col bg-background text-foreground">
       <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border/50 px-4 py-3 sm:px-6">
-        <WorkspaceProject conversationId={id} />
+        <ProjectLauncher />
         <WorkspaceSettings
           dark={dark}
           setDark={setDark}
@@ -489,8 +489,10 @@ function Chat({ id, initial }: { id: string; initial: UIMessage[] }) {
               <SendControl status={status} stop={stop} text={text} />
             </PromptInputFooter>
           </PromptInput>
-          <p className="pt-2 text-center text-[11px] text-muted-foreground">
-            Believe in your ideas. Create with Codesynux.
+          <p className="flex flex-wrap items-center justify-center gap-x-1.5 pt-2 text-center text-[11px] text-muted-foreground">
+            <span className="font-semibold tracking-tight text-foreground">Codesynux AI</span>
+            <span aria-hidden="true">·</span>
+            <span>Believe in your ideas. Create with Codesynux.</span>
           </p>
         </div>
       </main>
