@@ -24,6 +24,7 @@ import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiProjectChatRouteImport } from './routes/api/project-chat'
 import { Route as ConsoleIndexRouteImport } from './routes/console.index'
 import { Route as ConsoleProjectIdRouteImport } from './routes/console.$projectId'
 import { Route as SSlugRouteImport } from './routes/s.$slug'
@@ -104,6 +105,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProjectChatRoute = ApiProjectChatRouteImport.update({
+  id: '/api/project-chat',
+  path: '/api/project-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConsoleIndexRoute = ConsoleIndexRouteImport.update({
   id: '/console/',
   path: '/console/',
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/project-chat': typeof ApiProjectChatRoute
   '/console/$projectId': typeof ConsoleProjectIdRoute
   '/s/$slug': typeof SSlugRoute
   '/console/': typeof ConsoleIndexRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/project-chat': typeof ApiProjectChatRoute
   '/console/$projectId': typeof ConsoleProjectIdRoute
   '/s/$slug': typeof SSlugRoute
   '/console': typeof ConsoleIndexRoute
@@ -184,6 +192,7 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/support': typeof SupportRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/project-chat': typeof ApiProjectChatRoute
   '/console/$projectId': typeof ConsoleProjectIdRoute
   '/s/$slug': typeof SSlugRoute
   '/console/': typeof ConsoleIndexRoute
@@ -207,6 +216,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/support'
     | '/api/chat'
+    | '/api/project-chat'
     | '/console/$projectId'
     | '/s/$slug'
     | '/console/'
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/support'
     | '/api/chat'
+    | '/api/project-chat'
     | '/console/$projectId'
     | '/s/$slug'
     | '/console'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/support'
     | '/api/chat'
+    | '/api/project-chat'
     | '/console/$projectId'
     | '/s/$slug'
     | '/console/'
@@ -271,6 +283,7 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   SupportRoute: typeof SupportRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiProjectChatRoute: typeof ApiProjectChatRoute
   ConsoleProjectIdRoute: typeof ConsoleProjectIdRoute
   SSlugRoute: typeof SSlugRoute
   ConsoleIndexRoute: typeof ConsoleIndexRoute
@@ -384,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/project-chat': {
+      id: '/api/project-chat'
+      path: '/api/project-chat'
+      fullPath: '/api/project-chat'
+      preLoaderRoute: typeof ApiProjectChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/console/': {
       id: '/console/'
       path: '/console'
@@ -431,6 +451,7 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   SupportRoute: SupportRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiProjectChatRoute: ApiProjectChatRoute,
   ConsoleProjectIdRoute: ConsoleProjectIdRoute,
   SSlugRoute: SSlugRoute,
   ConsoleIndexRoute: ConsoleIndexRoute,
