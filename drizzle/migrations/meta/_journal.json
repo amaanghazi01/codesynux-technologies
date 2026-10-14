@@ -50,6 +50,13 @@
       "when": 1791797175640,
       "tag": "0006_hosted_sites",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791958208311,
+      "tag": "0007_migration",
+      "breakpoints": true
     }
   ]
 }

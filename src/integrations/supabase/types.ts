@@ -67,6 +67,53 @@ export type Database = {
           },
         ]
       }
+      ai_projects: {
+        Row: {
+          auto_deploy: boolean
+          created_at: string
+          github_repo: string | null
+          html: string
+          id: string
+          messages: Json
+          name: string
+          site_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auto_deploy?: boolean
+          created_at?: string
+          github_repo?: string | null
+          html?: string
+          id?: string
+          messages?: Json
+          name?: string
+          site_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          auto_deploy?: boolean
+          created_at?: string
+          github_repo?: string | null
+          html?: string
+          id?: string
+          messages?: Json
+          name?: string
+          site_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_projects_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "hosted_sites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ai_service_state: {
         Row: {
           blocked: boolean
