@@ -114,3 +114,80 @@ export async function chatRequest(request: Request) {
     return new Response('The conversation could not be processed. Please try again later.', { status: 500 });
   }
 }
+
+const PROJECT_PROMPT = [
+  'Project builder mode: you build one website for the user inside a live preview.',
+  'Every time you create or change the website, reply with a short explanation of what changed, then the COMPLETE updated website as ONE self-contained ```html code block (all CSS in <style>, all JavaScript in <script>, responsive, accessible, no external build tools). Never send partial snippets of the website.',
+  'If the request is only a question or planning, answer without a code block.',
+  'When the project has no name yet, begin your reply with a line exactly like: Project name: <2 to 4 word name>',
+].join(' ');
+
+function extractHtml(text: string): string | null {
+  const blocks = [...text.matchAll(/```html\s*\n([\s\S]*?)```/gi)];
+  const last = blocks.at(-1)?.[1]?.trim();
+  return last && /<(html|body|div|main|section|!doctype)/i.test(last) ? last : null;
+}
+
+export async function projectChatRequest(request: Request) {
+  try {
+    const origin = request.headers.get('origin');
+    if (origin && origin !== new URL(request.url).origin) return new Response('Request origin not allowed.', { status: 403 });
+    const token = request.headers.get('authorization');
+    if (!token?.startsWith('Bearer ')) return new Response('Sign in to Codesynux to use projects.', { status: 401 });
+    const url = process.env['SUPABASE_URL'];
+    const key = process.env['SUPABASE_PUBLISHABLE_KEY'];
+    if (!url || !key) return new Response('Account service is not configured.', { status: 503 });
+    const db = createClient<Database>(url, key, { global: { headers: { Authorization: token } }, auth: { persistSession: false, autoRefreshToken: false } });
+    const { data: auth } = await db.auth.getUser(token.slice(7));
+    if (!auth.user) return new Response('Your session expired. Please sign in again.', { status: 401 });
+    const body = (await request.json()) as { id?: unknown; messages?: unknown; language?: unknown; mode?: unknown };
+    if (typeof body.id !== 'string' || !Array.isArray(body.messages)) return new Response('Invalid project.', { status: 400 });
+    const { data: project } = await db.from('ai_projects').select('id,name,html').eq('id', body.id).maybeSingle();
+    if (!project) return new Response('Project unavailable.', { status: 404 });
+    const blocked = await getAIBlock();
+    if (blocked) return new Response(blocked, { status: 403 });
+    const apiKey = process.env['LOVABLE_API_KEY'];
+    if (!apiKey) return new Response('AI service needs configuration by the account owner.', { status: 401 });
+    const messages = (await validateUIMessages({ messages: body.messages })) as UIMessage[];
+    const latest = messages.at(-1);
+    if (!latest || latest.role !== 'user') return new Response('Please send a new message.', { status: 400 });
+    try {
+      for (const m of messages) validateAttachments(m.parts.flatMap(p => (p.type === 'file' ? [p] : [])));
+    } catch (error) {
+      return new Response(error instanceof Error ? error.message : 'Invalid attachments.', { status: 400 });
+    }
+    const { data: allowed, error: pointsError } = await db.rpc('consume_ai_point');
+    if (pointsError) return new Response('Your daily points could not be checked. Please try again.', { status: 503 });
+    if (!allowed) return new Response('You have used your 100 free points for today. They refresh tomorrow, or upgrade to Pro for unlimited access.', { status: 429 });
+    const language = languages.find(item => item.code === body.language);
+    const languageInstruction = language && language.code !== 'auto' ? (language.code === 'hinglish' ? 'Reply in Hinglish.' : `Reply in ${language.name}.`) : '';
+    const context = `Project name: ${project.name === 'Untitled project' ? '(none yet)' : project.name}. Current website code:\n<current-website>\n${project.html.slice(0, 60000) || '(empty)'}\n</current-website>`;
+    const call = createResponsesCall(
+      request,
+      { baseURL: 'https://ai.gateway.lovable.dev/v1', apiKey, model: 'openai/gpt-6-astra' },
+      await convertToModelMessages(modelReadyMessages(messages)),
+      [SYSTEM_PROMPT, PROJECT_PROMPT, languageInstruction, body.mode === 'plan' ? 'The user chose Plan mode: plan only, no code block unless asked.' : '', context].join(' '),
+    );
+    return await call.response({
+      originalMessages: messages,
+      onGatewayError: (status, message) => recordAIBlock(status, message),
+      onComplete: async (completed: UIMessage[]) => {
+        const last = completed.at(-1);
+        const text = last?.role === 'assistant' ? last.parts.map(p => (p.type === 'text' ? p.text : '')).join('') : '';
+        const html = extractHtml(text);
+        const named = project.name === 'Untitled project' ? text.match(/Project name:\s*\**([^\n*]{2,60})/i)?.[1]?.trim() : undefined;
+        const { error } = await db.from('ai_projects').update({
+          messages: completed as unknown as Json,
+          ...(html ? { html } : {}),
+          ...(named ? { name: named.slice(0, 60) } : {}),
+          updated_at: new Date().toISOString(),
+        }).eq('id', project.id);
+        if (error) console.error('Project save failed', error.code);
+      },
+    });
+  } catch (error) {
+    if (request.signal.aborted) return new Response(null, { status: 499 });
+    console.error('Project chat failed', error instanceof Error ? error.message : 'Unknown error');
+    return new Response('The project request could not be processed. Please try again later.', { status: 500 });
+  }
+}
