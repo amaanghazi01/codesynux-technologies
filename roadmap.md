@@ -1,7 +1,7 @@
 # Website roadmap
 - [ ] Replace AI header branding with an icon-only project control and editable project name; preserve settings and verify naming and appearance.
 - [x] Refresh AI header/settings, worldwide languages, ten attachments, Code/Chat/Plan modes and rotating quotes; signed-in settings, persistence and file previews checked on phone/desktop.
-- [ ] Verify a real AI attachment answer — blocked by the AI service reporting “Not enough credits”.
+- [ ] Chats run on Cloudflare Qwen2.5-Coder 32B — live test blocked: Cloudflare key has no account access (needs account ID + Workers AI permission).
 - [x] Refresh Codesynux Clouds overview and separate deployment entry; verify navigation and phone/desktop layout.
 - [x] Section-page headers: logo and menu button only, all destinations inside the menu; homepage header unchanged.
 - [x] Launch responsive Apple-inspired homepage and company-mark navigation.
