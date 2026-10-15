@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Cloud, Globe, RefreshCw, Upload } from "lucide-react";
+import { ArrowRight, Cloud } from "lucide-react";
+import { CloudsManager } from "@/components/clouds-manager";
 import { PageShell } from "@/components/page-shell";
 import { Button } from "@/components/ui/button";
 
@@ -22,20 +23,12 @@ function CloudsPage() {
       <p className="section-index">Cloud Infrastructure</p>
       <h1 id="clouds-title">Codesynux Clouds</h1>
       <p className="clouds-lead">A home for your next project.</p>
-      <p className="clouds-entry-copy">Start with website deployment.<br />Software and apps are next — details coming later.</p>
-      <Button asChild size="lg" className="clouds-start"><Link to="/clouds-deploy">Start Codesynux Clouds <ArrowRight size={17} /></Link></Button>
+      <p className="clouds-entry-copy">Ready for deployment with Codesynux Clouds.</p>
+      <Button asChild size="lg" className="clouds-start"><Link to="/clouds-deploy">Deploy new project <ArrowRight size={17} /></Link></Button>
     </section>
-    <section className="clouds-capabilities" aria-labelledby="clouds-capabilities-title">
-      <div className="clouds-capabilities-inner">
-        <p className="section-index">Available today</p>
-        <h2 id="clouds-capabilities-title">From your code to a live website.</h2>
-        <p className="clouds-banner-copy">Single-page websites. One address. A place to manage what you publish.</p>
-        <div className="clouds-benefits">
-          <div><Upload strokeWidth={1.5} /><h3>Bring your code</h3><p>Paste HTML, CSS and JavaScript, or import your work from Code Studio.</p></div>
-          <div><Globe strokeWidth={1.5} /><h3>Publish and share</h3><p>Give your website an address and share its link.</p></div>
-          <div><RefreshCw strokeWidth={1.5} /><h3>Keep it up to date</h3><p>View your live websites, redeploy changes or take a website offline.</p></div>
-        </div>
-      </div>
-    </section>
+    <section className="clouds-capabilities"><div className="clouds-capabilities-inner">
+      <CloudsManager />
+      <p className="clouds-banner-copy mt-6">Every site is served over HTTPS with automatic certificates, delivered from servers near each visitor, with no downtime when you redeploy.</p>
+    </div></section>
   </main></PageShell>;
 }
